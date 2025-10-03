@@ -1,3 +1,6 @@
+# Copyright 2025 Ubuntu
+# See LICENSE file for licensing details.
+
 # initial hello world Flask app
 
 import flask
