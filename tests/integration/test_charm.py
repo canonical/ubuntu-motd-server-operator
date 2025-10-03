@@ -27,7 +27,8 @@ async def test_build_and_deploy(ops_test: OpsTest, pytestconfig: pytest.Config):
     """
     # Deploy the charm and wait for active/idle status
     charm = pytestconfig.getoption("--charm-file")
-    resources = {"httpbin-image": CHARMCRAFT_DATA["resources"]["httpbin-image"]["upstream-source"]}
+    image = pytestconfig.getoption("--image")
+    resources = {"flask-app-image": image}
     assert ops_test.model
     await asyncio.gather(
         ops_test.model.deploy(
