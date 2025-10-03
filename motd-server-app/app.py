@@ -1,4 +1,4 @@
-# Copyright 2025 Ubuntu
+# Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
 # initial hello world Flask app

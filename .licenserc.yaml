@@ -25,4 +25,5 @@ header:
     - 'zap_rules.tsv'
     - 'lib/**'
     - '**/*.md.j2'
+    - '.trivyignore'
   comment: on-failure
