@@ -8,8 +8,6 @@
 import unittest
 from unittest.mock import patch
 
-import pytest
-
 from app import DEFAULT_MOTD, app, extract_info, get_motds_dict, select_motd
 
 
@@ -246,7 +244,3 @@ class TestIndexRoute(unittest.TestCase):
             headers={"User-Agent": "curl/7.68.0 Ubuntu/24.04/arm64 cloud_id/gce"},
         )
         assert response.data.decode() == "Least specific"
-
-
-if __name__ == "__main__":
-    pytest.main([__file__])
