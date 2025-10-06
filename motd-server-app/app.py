@@ -8,6 +8,7 @@ import re
 
 import flask
 import yaml
+from werkzeug.exceptions import HTTPException
 
 DEFAULT_MOTD = "Default motd"
 
@@ -115,3 +116,16 @@ def index() -> str:
 
     logger.debug("No matching MOTD found, returning default")
     return DEFAULT_MOTD
+
+
+@app.errorhandler(404)
+def page_not_found(exception: HTTPException) -> tuple[str, int]:  # pylint: disable=unused-argument
+    """Handle 404 errors with a default MOTD response.
+
+    Args:
+        exception: The exception that was raised.
+
+    Returns:
+        Tuple of default MOTD and HTTP status code 200.
+    """
+    return index(), 200

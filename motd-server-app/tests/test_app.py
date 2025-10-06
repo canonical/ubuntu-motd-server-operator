@@ -209,3 +209,18 @@ class TestIndexRoute(unittest.TestCase):
             headers={"User-Agent": "curl/7.68.0 Ubuntu/24.04/arm64 cloud_id/gce"},
         )
         assert response.data.decode() == "Least specific"
+
+
+class TestNonIndexRoutes(unittest.TestCase):
+    """Tests for the Flask index route."""
+
+    def setUp(self):
+        """Set up Flask test client."""
+        app.config["TESTING"] = True
+        self.client = app.test_client()
+
+    def test_404(self):
+        """Test 404."""
+        response = self.client.get("/does_not_exist", headers={"User-Agent": ""})
+        assert response.status_code == 200
+        assert response.data.decode() == DEFAULT_MOTD
