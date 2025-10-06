@@ -9,6 +9,7 @@ import flask
 import yaml
 
 DEFAULT_MOTD = "Default motd"
+DEFAULT_FILES = {"index.txt": DEFAULT_MOTD, "_health": "- OK"}
 
 
 app = flask.Flask(__name__)
@@ -24,7 +25,7 @@ def get_files_from_yaml(files_string: str) -> dict[str, str]:
     Returns:
         Dictionary mapping of filenames to their content.
     """
-    files = {"index.txt": DEFAULT_MOTD}
+    files = DEFAULT_FILES
 
     if not files_string:
         app.logger.warning("No files found in environment")

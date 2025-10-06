@@ -7,7 +7,12 @@
 
 import pytest
 
-from app import DEFAULT_MOTD, extract_user_agent_info, get_files_from_yaml, select_motd
+from app import (
+    DEFAULT_FILES,
+    extract_user_agent_info,
+    get_files_from_yaml,
+    select_motd,
+)
 
 
 def test_get_files_from_yaml():
@@ -21,24 +26,27 @@ index-22.04.txt:
   - "Welcome to Ubuntu 22.04"
 """
     result = get_files_from_yaml(yaml_content)
-    assert result == {
-        "index.txt": DEFAULT_MOTD,
-        "index-24.04.txt": "Welcome to Ubuntu 24.04\nSystem information",
-        "index-22.04.txt": "Welcome to Ubuntu 22.04",
-    }
+    expected = DEFAULT_FILES.copy()
+    expected.update(
+        {
+            "index-24.04.txt": "Welcome to Ubuntu 24.04\nSystem information",
+            "index-22.04.txt": "Welcome to Ubuntu 22.04",
+        }
+    )
+    assert result == expected
 
 
 def test_get_files_from_invalid_yaml():
     """Test handling of invalid YAML string."""
     yaml_content = "::: invalid yaml :-::"
     result = get_files_from_yaml(yaml_content)
-    assert result == {"index.txt": DEFAULT_MOTD}
+    assert result == DEFAULT_FILES
 
 
 def test_get_files_from_enpty_yaml():
     """Test handling of empty YAML string."""
     result = get_files_from_yaml("")
-    assert result == {"index.txt": DEFAULT_MOTD}
+    assert result == DEFAULT_FILES
 
 
 @pytest.mark.parametrize(
