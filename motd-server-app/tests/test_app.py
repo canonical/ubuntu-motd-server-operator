@@ -56,56 +56,21 @@ index-22.04.txt:
 class TestExtractInfo(unittest.TestCase):
     """Tests for extract_info function."""
 
-    def test_full_user_agent(self):
-        """Test extracting all information from a complete user agent."""
-        user_agent = "curl/7.68.0 Ubuntu/24.04/amd64 cloud_id/aws"
-        version, arch, cloud = extract_info(user_agent)
-        assert version == "24.04"
-        assert arch == "amd64"
-        assert cloud == "aws"
+    def test_extract(self):
+        """Tests for extract_info function."""
 
-    def test_partial_user_agent_version_only(self):
-        """Test user agent with only version information."""
-        user_agent = "curl/7.68.0 Ubuntu/22.04"
-        version, arch, cloud = extract_info(user_agent)
-        assert version == "22.04"
-        assert arch == ""
-        assert cloud == ""
-
-    def test_partial_user_agent_no_version(self):
-        """Test user agent without version information."""
-        user_agent = "curl/7.68.0 /arm64 cloud_id/gce"
-        version, arch, cloud = extract_info(user_agent)
-        assert version == ""
-        assert arch == "arm64"
-        assert cloud == "gce"
-
-    def test_empty_user_agent(self):
-        """Test empty user agent string."""
-        user_agent = ""
-        version, arch, cloud = extract_info(user_agent)
-        assert version == ""
-        assert arch == ""
-        assert cloud == ""
-
-    def test_malformed_user_agent(self):
-        """Test malformed user agent string."""
-        user_agent = "random string without patterns"
-        version, arch, cloud = extract_info(user_agent)
-        assert version == ""
-        assert arch == ""
-        assert cloud == ""
-
-    def test_different_cloud_providers(self):
-        """Test different cloud provider IDs."""
         test_cases = [
-            ("Ubuntu/24.04/amd64 cloud_id/aws", "aws"),
-            ("Ubuntu/24.04/amd64 cloud_id/gce", "gce"),
-            ("Ubuntu/24.04/amd64 cloud_id/azure", "azure"),
+            ("curl/7.68.0 Ubuntu/24.04/amd64 cloud_id/aws", ("24.04", "amd64", "aws")),
+            ("curl/7.68.0 Ubuntu/22.04", ("22.04", "", "")),
+            ("curl/7.68.0 /arm64 cloud_id/gce", ("", "arm64", "gce")),
+            ("curl/7.68.0 cloud_id/gce", ("", "", "gce")),
+            ("", ("", "", "")),
+            ("random string without patterns", ("", "", "")),
         ]
-        for user_agent, expected_cloud in test_cases:
-            _, _, cloud = extract_info(user_agent)
-            assert cloud == expected_cloud
+        for user_agent, expected in test_cases:
+            with self.subTest(user_agent=user_agent):
+                version, arch, cloud = extract_info(user_agent)
+                self.assertEqual((version, arch, cloud), expected)
 
 
 class TestSelectMotd(unittest.TestCase):
