@@ -3,44 +3,47 @@
 
 """Flask application for serving Ubuntu MOTD content based on user agent."""
 
-import logging
 import re
 
 import flask
 import yaml
-from werkzeug.exceptions import HTTPException
 
 DEFAULT_MOTD = "Default motd"
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
 
 app = flask.Flask(__name__)
 app.config.from_prefixed_env()
 
 
-def get_motds_dict() -> dict[str, str]:
-    """Load and parse MOTD configurations from environment.
+def get_files_from_yaml(files_string: str) -> dict[str, str]:
+    """Load files from a YAML string.
+
+    Args:
+        files_string: YAML string defining files.
 
     Returns:
-        Dictionary mapping MOTD filenames to their content.
+        Dictionary mapping of filenames to their content.
     """
-    motds_env = app.config.get("MOTDS")
-    if not motds_env:
-        logger.warning("No motds found in environment")
-        return {}
+    files = {"index.txt": DEFAULT_MOTD}
+
+    if not files_string:
+        app.logger.warning("No files found in environment")
+        return files
 
     try:
-        raw_motds = yaml.safe_load(motds_env)
-        motds = {target: "\n".join(content) for target, content in raw_motds.items()}
+        raw_files = yaml.safe_load(files_string)
+        files.update({target: "\n".join(content) for target, content in raw_files.items()})
     except yaml.YAMLError as e:
-        logger.error("Could not parse MOTDs: %s", e)
-        return {}
+        app.logger.error("Could not parse MOTDs: %s", e)
+        return files
 
-    return motds
+    return files
 
 
-def extract_info(user_agent: str) -> tuple[str, str, str]:
+app.config["FILES"] = get_files_from_yaml(app.config.get("FILES") or "")
+
+
+def extract_user_agent_info(user_agent: str) -> tuple[str, str, str]:
     """Extract version, architecture, and cloud information from user agent.
 
     Args:
@@ -60,13 +63,13 @@ def extract_info(user_agent: str) -> tuple[str, str, str]:
     )
 
 
-def select_motd(motds: dict[str, str], version: str, arch: str, cloud: str) -> str:
+def select_motd(files: dict, version: str, arch: str, cloud: str) -> str:
     """Select appropriate MOTD based on version, architecture, and cloud.
 
     Matches MOTDs in order of specificity from most to least specific.
 
     Args:
-        motds: Dictionary of available MOTDs.
+        files: Dictionary of available files.
         version: Ubuntu version (e.g., "24.04").
         arch: System architecture (e.g., "amd64").
         cloud: Cloud provider ID.
@@ -85,8 +88,8 @@ def select_motd(motds: dict[str, str], version: str, arch: str, cloud: str) -> s
     ]
 
     for candidate in candidates:
-        if candidate and candidate in motds:
-            return motds[candidate]
+        if candidate and candidate in files:
+            return files[candidate]
 
     return ""
 
@@ -98,34 +101,29 @@ def index() -> str:
     Returns:
         MOTD content appropriate for the requesting system.
     """
-    motds = get_motds_dict()
-    logger.debug("Available MOTDs: %s", str(motds))
-
-    if not motds or not flask.request.user_agent.string:
+    if not app.config["FILES"] or not flask.request.user_agent.string:
         return DEFAULT_MOTD
 
-    user_agent_string = flask.request.user_agent.string
-    version, arch, cloud = extract_info(user_agent_string)
-    logger.debug("Extracted info - version: %s, arch: %s, cloud: %s", version, arch, cloud)
+    version, arch, cloud = extract_user_agent_info(flask.request.user_agent.string)
 
-    motd = select_motd(motds, version, arch, cloud)
-
+    motd = select_motd(app.config["FILES"], version, arch, cloud)
     if motd:
-        logger.debug("Selected MOTD: %s characters", len(motd))
         return motd
 
-    logger.debug("No matching MOTD found, returning default")
     return DEFAULT_MOTD
 
 
-@app.errorhandler(404)
-def page_not_found(exception: HTTPException) -> tuple[str, int]:  # pylint: disable=unused-argument
-    """Handle 404 errors with a default MOTD response.
+@app.route("/<path:filename>")
+def serve_file(filename: str) -> tuple[str, int]:
+    """Serve non-MOTD files directly if they exist.
 
     Args:
-        exception: The exception that was raised.
+        filename: Name of the file to serve.
 
     Returns:
-        Tuple of default MOTD and HTTP status code 200.
+        File content if found, otherwise 404 error.
     """
-    return index(), 200
+    if filename in app.config["FILES"]:
+        return app.config["FILES"][filename]
+
+    return "Not found", 404

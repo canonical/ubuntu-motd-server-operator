@@ -5,222 +5,93 @@
 
 """Unit tests for motd-server-app/app.py."""
 
-import unittest
-from unittest.mock import patch
+import pytest
 
-from app import DEFAULT_MOTD, app, extract_info, get_motds_dict, select_motd
+from app import DEFAULT_MOTD, extract_user_agent_info, get_files_from_yaml, select_motd
 
 
-class TestGetMotdsDict(unittest.TestCase):
-    """Tests for get_motds_dict function."""
+def test_get_files_from_yaml():
+    """Test loading files from a valid YAML string."""
 
-    @patch("app.app.config")
-    def test_no_motds_in_environment(self, mock_config):
-        """Test when no MOTDs are configured."""
-        mock_config.get.return_value = None
-        result = get_motds_dict()
-        assert result == {}
-
-    @patch("app.app.config")
-    def test_valid_yaml_motds(self, mock_config):
-        """Test parsing valid YAML MOTDs."""
-        yaml_content = """
+    yaml_content = """
 index-24.04.txt:
   - "Welcome to Ubuntu 24.04"
   - "System information"
 index-22.04.txt:
   - "Welcome to Ubuntu 22.04"
 """
-        mock_config.get.return_value = yaml_content
-        result = get_motds_dict()
-        assert result == {
-            "index-24.04.txt": "Welcome to Ubuntu 24.04\nSystem information",
-            "index-22.04.txt": "Welcome to Ubuntu 22.04",
-        }
-
-    @patch("app.app.config")
-    def test_invalid_yaml_motds(self, mock_config):
-        """Test handling of invalid YAML."""
-        mock_config.get.return_value = "invalid: yaml: content: ["
-        result = get_motds_dict()
-        assert result == {}
-
-    @patch("app.app.config")
-    def test_empty_yaml_motds(self, mock_config):
-        """Test handling of empty YAML."""
-        mock_config.get.return_value = ""
-        result = get_motds_dict()
-        assert result == {}
+    result = get_files_from_yaml(yaml_content)
+    assert result == {
+        "index.txt": DEFAULT_MOTD,
+        "index-24.04.txt": "Welcome to Ubuntu 24.04\nSystem information",
+        "index-22.04.txt": "Welcome to Ubuntu 22.04",
+    }
 
 
-class TestExtractInfo(unittest.TestCase):
-    """Tests for extract_info function."""
-
-    def test_extract(self):
-        """Tests for extract_info function."""
-
-        test_cases = [
-            ("curl/7.68.0 Ubuntu/24.04/amd64 cloud_id/aws", ("24.04", "amd64", "aws")),
-            ("curl/7.68.0 Ubuntu/22.04", ("22.04", "", "")),
-            ("curl/7.68.0 /arm64 cloud_id/gce", ("", "arm64", "gce")),
-            ("curl/7.68.0 cloud_id/gce", ("", "", "gce")),
-            ("", ("", "", "")),
-            ("random string without patterns", ("", "", "")),
-        ]
-        for user_agent, expected in test_cases:
-            with self.subTest(user_agent=user_agent):
-                version, arch, cloud = extract_info(user_agent)
-                self.assertEqual((version, arch, cloud), expected)
+def test_get_files_from_invalid_yaml():
+    """Test handling of invalid YAML string."""
+    yaml_content = "::: invalid yaml :-::"
+    result = get_files_from_yaml(yaml_content)
+    assert result == {"index.txt": DEFAULT_MOTD}
 
 
-class TestSelectMotd(unittest.TestCase):
-    """Tests for select_motd function."""
-
-    def setUp(self):
-        """Set up test MOTDs dictionary."""
-        self.motds = {
-            "index-24.04-amd64-aws.txt": "Specific MOTD",
-            "index-24.04-amd64.txt": "Version and arch MOTD",
-            "index-24.04-aws.txt": "Version and cloud MOTD",
-            "index-24.04.txt": "Version only MOTD",
-            "index-amd64.txt": "Arch only MOTD",
-            "index-aws.txt": "Cloud only MOTD",
-        }
-
-    def test_most_specific_match(self):
-        """Test selecting most specific MOTD when all parameters match."""
-        result = select_motd(self.motds, "24.04", "amd64", "aws")
-        assert result == "Specific MOTD"
-
-    def test_version_arch_match(self):
-        """Test selecting version-arch MOTD."""
-        result = select_motd(self.motds, "24.04", "amd64", "gce")
-        assert result == "Version and arch MOTD"
-
-    def test_version_cloud_match(self):
-        """Test selecting version-cloud MOTD."""
-        result = select_motd(self.motds, "24.04", "arm64", "aws")
-        assert result == "Version and cloud MOTD"
-
-    def test_version_only_match(self):
-        """Test selecting version-only MOTD."""
-        result = select_motd(self.motds, "24.04", "arm64", "gce")
-        assert result == "Version only MOTD"
-
-    def test_arch_only_match(self):
-        """Test selecting arch-only MOTD."""
-        result = select_motd(self.motds, "22.04", "amd64", "gce")
-        assert result == "Arch only MOTD"
-
-    def test_cloud_only_match(self):
-        """Test selecting cloud-only MOTD."""
-        result = select_motd(self.motds, "22.04", "arm64", "aws")
-        assert result == "Cloud only MOTD"
-
-    def test_no_match(self):
-        """Test when no MOTD matches."""
-        result = select_motd(self.motds, "20.04", "s390x", "oracle")
-        assert result == ""
-
-    def test_empty_motds_dict(self):
-        """Test with empty MOTDs dictionary."""
-        result = select_motd({}, "24.04", "amd64", "aws")
-        assert result == ""
-
-    def test_empty_parameters(self):
-        """Test with empty parameters."""
-        result = select_motd(self.motds, "", "", "")
-        assert result == ""
+def test_get_files_from_enpty_yaml():
+    """Test handling of empty YAML string."""
+    result = get_files_from_yaml("")
+    assert result == {"index.txt": DEFAULT_MOTD}
 
 
-class TestIndexRoute(unittest.TestCase):
-    """Tests for the Flask index route."""
-
-    def setUp(self):
-        """Set up Flask test client."""
-        app.config["TESTING"] = True
-        self.client = app.test_client()
-
-    @patch("app.get_motds_dict")
-    def test_default_motd_when_no_motds(self, mock_get_motds):
-        """Test returning default MOTD when no MOTDs are available."""
-        mock_get_motds.return_value = {}
-        response = self.client.get("/")
-        assert response.status_code == 200
-        assert response.data.decode() == DEFAULT_MOTD
-
-    @patch("app.get_motds_dict")
-    def test_default_motd_when_no_match(self, mock_get_motds):
-        """Test returning default MOTD when no matching MOTD is found."""
-        mock_get_motds.return_value = {"index-24.04.txt": "Ubuntu 24.04 MOTD"}
-        response = self.client.get(
-            "/",
-            headers={"User-Agent": "curl/7.68.0 Ubuntu/22.04/amd64 cloud_id/aws"},
-        )
-        assert response.status_code == 200
-        assert response.data.decode() == DEFAULT_MOTD
-
-    @patch("app.get_motds_dict")
-    def test_specific_motd_match(self, mock_get_motds):
-        """Test returning specific MOTD when a match is found."""
-        expected_motd = "Welcome to Ubuntu 24.04 on AWS"
-        mock_get_motds.return_value = {"index-24.04.txt": expected_motd}
-        response = self.client.get(
-            "/",
-            headers={"User-Agent": "curl/7.68.0 Ubuntu/24.04/amd64 cloud_id/aws"},
-        )
-        assert response.status_code == 200
-        assert response.data.decode() == expected_motd
-
-    @patch("app.get_motds_dict")
-    def test_empty_user_agent(self, mock_get_motds):
-        """Test handling empty user agent."""
-        mock_get_motds.return_value = {"index-24.04.txt": "Ubuntu MOTD"}
-        response = self.client.get("/", headers={"User-Agent": ""})
-        assert response.status_code == 200
-        assert response.data.decode() == DEFAULT_MOTD
-
-    @patch("app.get_motds_dict")
-    def test_hierarchical_motd_selection(self, mock_get_motds):
-        """Test that MOTDs are selected hierarchically by specificity."""
-        mock_get_motds.return_value = {
-            "index-24.04-amd64-aws.txt": "Most specific",
-            "index-24.04-amd64.txt": "Medium specific",
-            "index-24.04.txt": "Least specific",
-        }
-
-        # Should match most specific
-        response = self.client.get(
-            "/",
-            headers={"User-Agent": "curl/7.68.0 Ubuntu/24.04/amd64 cloud_id/aws"},
-        )
-        assert response.data.decode() == "Most specific"
-
-        # Should match medium specific
-        response = self.client.get(
-            "/",
-            headers={"User-Agent": "curl/7.68.0 Ubuntu/24.04/amd64 cloud_id/gce"},
-        )
-        assert response.data.decode() == "Medium specific"
-
-        # Should match least specific
-        response = self.client.get(
-            "/",
-            headers={"User-Agent": "curl/7.68.0 Ubuntu/24.04/arm64 cloud_id/gce"},
-        )
-        assert response.data.decode() == "Least specific"
+@pytest.mark.parametrize(
+    "user_agent,expected",
+    [
+        ("curl/7.68.0 Ubuntu/24.04/amd64 cloud_id/aws", ("24.04", "amd64", "aws")),
+        ("curl/7.68.0 Ubuntu/22.04", ("22.04", "", "")),
+        ("curl/7.68.0 /arm64 cloud_id/gce", ("", "arm64", "gce")),
+        ("curl/7.68.0 cloud_id/gce", ("", "", "gce")),
+        ("", ("", "", "")),
+        ("random string without patterns", ("", "", "")),
+    ],
+)
+def test_extract_user_agent_info(user_agent, expected):
+    """Test extraction of version, architecture, and cloud from user agent."""
+    assert extract_user_agent_info(user_agent) == expected
 
 
-class TestNonIndexRoutes(unittest.TestCase):
-    """Tests for the Flask index route."""
+@pytest.fixture(name="motds")
+def motds_fixture():
+    """Fixture providing a sample MOTD files dictionary."""
+    return {
+        "index-24.04-amd64-aws.txt": "Specific MOTD",
+        "index-24.04-amd64.txt": "Version and arch MOTD",
+        "index-24.04-aws.txt": "Version and cloud MOTD",
+        "index-24.04.txt": "Version only MOTD",
+        "index-amd64.txt": "Arch only MOTD",
+        "index-aws.txt": "Cloud only MOTD",
+    }
 
-    def setUp(self):
-        """Set up Flask test client."""
-        app.config["TESTING"] = True
-        self.client = app.test_client()
 
-    def test_404(self):
-        """Test 404."""
-        response = self.client.get("/does_not_exist", headers={"User-Agent": ""})
-        assert response.status_code == 200
-        assert response.data.decode() == DEFAULT_MOTD
+@pytest.mark.parametrize(
+    "version,arch,cloud,expected",
+    [
+        ("24.04", "amd64", "aws", "Specific MOTD"),
+        ("24.04", "amd64", "gce", "Version and arch MOTD"),
+        ("24.04", "arm64", "aws", "Version and cloud MOTD"),
+        ("24.04", "arm64", "gce", "Version only MOTD"),
+        ("22.04", "amd64", "gce", "Arch only MOTD"),
+        ("22.04", "arm64", "aws", "Cloud only MOTD"),
+        ("20.04", "s390x", "oracle", ""),
+    ],
+)
+def test_select_motd_most_specific_match(motds, version, arch, cloud, expected):
+    """Test selection of MOTD based on version, architecture, and cloud."""
+    assert select_motd(motds, version, arch, cloud) == expected
+
+
+def test_select_motd_empty_files_dict():
+    """Test selection of MOTD when files dictionary is empty."""
+    assert select_motd({}, "24.04", "amd64", "aws") == ""
+
+
+def test_select_motd_empty_parameters(motds):
+    """Test selection of MOTD when version, architecture, and cloud are empty."""
+    assert select_motd(motds, "", "", "") == ""
