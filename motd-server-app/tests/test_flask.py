@@ -5,7 +5,7 @@
 
 import pytest
 
-from app import DEFAULT_MOTD, app
+from app import DEFAULT_MOTD, HEALTH_CONTENT, HEALTH_PATH, app
 
 
 @pytest.fixture(name="client")
@@ -20,9 +20,18 @@ def client_fixture():
         "index.txt": DEFAULT_MOTD,
         "index-22.04-amd64-aws.txt": "22.04-amd64-aws",
         "aptnews.json": "apt news",
+        HEALTH_PATH: HEALTH_CONTENT,
     }
     with app.test_client() as client:
         yield client
+
+
+def test_health(client):
+    """Test default behavior when no configuration is provided."""
+    print(f"DEBUG: {HEALTH_PATH}")
+    response = client.get(f"/{HEALTH_PATH}")
+    assert response.status_code == 200
+    assert response.data.decode() == HEALTH_CONTENT
 
 
 def test_no_user_agent(client):

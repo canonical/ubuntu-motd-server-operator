@@ -5,36 +5,28 @@
 
 """Integration tests."""
 
-import asyncio
 import logging
 from pathlib import Path
 
 import pytest
+import requests
 import yaml
-from pytest_operator.plugin import OpsTest
 
 logger = logging.getLogger(__name__)
 
 CHARMCRAFT_DATA = yaml.safe_load(Path("./charmcraft.yaml").read_text(encoding="utf-8"))
 APP_NAME = CHARMCRAFT_DATA["name"]
 
+MOTD_HEALTH_CONTENT = "OK"
+
 
 @pytest.mark.abort_on_fail
-async def test_build_and_deploy(ops_test: OpsTest, pytestconfig: pytest.Config):
-    """Deploy the charm together with related charms.
-
-    Assert on the unit status before any relations/configurations take place.
+def test_health(motd_url: str):
     """
-    # Deploy the charm and wait for active/idle status
-    charm = pytestconfig.getoption("--charm-file")
-    image = pytestconfig.getoption("--motd-server-app-image")
-    resources = {"flask-app-image": image}
-    assert ops_test.model
-    await asyncio.gather(
-        ops_test.model.deploy(
-            f"./{charm}", resources=resources, application_name=APP_NAME, series="jammy"
-        ),
-        ops_test.model.wait_for_idle(
-            apps=[APP_NAME], status="active", raise_on_blocked=True, timeout=1000
-        ),
-    )
+    arrange: Deploy the motd-server-app charm.
+    act: Get the _health endpoint.
+    assert: The _health endpoint returns 200 OK.
+    """
+    res = requests.get(motd_url, timeout=5)
+    assert res.status_code == 200
+    assert res.text == MOTD_HEALTH_CONTENT

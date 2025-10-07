@@ -8,9 +8,11 @@ import re
 import flask
 import yaml
 
-DEFAULT_MOTD = "Default motd"
-DEFAULT_FILES = {"index.txt": DEFAULT_MOTD, "_health": "- OK"}
+HEALTH_CONTENT = "OK"
+HEALTH_PATH = "_health"
 
+DEFAULT_MOTD = "Default motd"
+DEFAULT_FILES = {"index.txt": DEFAULT_MOTD, HEALTH_PATH: HEALTH_CONTENT}
 
 app = flask.Flask(__name__)
 app.config.from_prefixed_env()
