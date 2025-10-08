@@ -9,6 +9,8 @@ import pytest
 
 from app import (
     DEFAULT_FILES,
+    HEALTH_CONTENT,
+    HEALTH_PATH,
     extract_user_agent_info,
     get_files_from_yaml,
     select_motd,
@@ -20,10 +22,11 @@ def test_get_files_from_yaml():
 
     yaml_content = """
 index-24.04.txt:
-  - "Welcome to Ubuntu 24.04"
-  - "System information"
-index-22.04.txt:
-  - "Welcome to Ubuntu 22.04"
+  - Welcome to Ubuntu 24.04
+  - System information
+
+index-22.04.txt: 
+  - Welcome to Ubuntu 22.04
 """
     result = get_files_from_yaml(yaml_content)
     expected = DEFAULT_FILES.copy()
@@ -34,6 +37,15 @@ index-22.04.txt:
         }
     )
     assert result == expected
+
+
+def test_get_files_from_non_dict_yaml():
+    """Test loading files from an invalid YAML string."""
+
+    # If content is invalid, we silently fail and return healthcheck only
+    result = get_files_from_yaml("not a dict")
+
+    assert result == {HEALTH_PATH: HEALTH_CONTENT}
 
 
 def test_get_files_from_invalid_yaml():

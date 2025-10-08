@@ -11,8 +11,7 @@ import yaml
 HEALTH_CONTENT = "OK"
 HEALTH_PATH = "_health"
 
-DEFAULT_MOTD = "Default motd"
-DEFAULT_FILES = {"index.txt": DEFAULT_MOTD, HEALTH_PATH: HEALTH_CONTENT}
+DEFAULT_FILES = {HEALTH_PATH: HEALTH_CONTENT}
 
 app = flask.Flask(__name__)
 app.config.from_prefixed_env()
@@ -27,7 +26,8 @@ def get_files_from_yaml(files_string: str) -> dict[str, str]:
     Returns:
         Dictionary mapping of filenames to their content.
     """
-    files = DEFAULT_FILES
+    files = DEFAULT_FILES.copy()
+    app.logger.debug("Loading files from yaml string: %s", files_string)
 
     if not files_string:
         app.logger.warning("No files found in environment")
@@ -35,15 +35,28 @@ def get_files_from_yaml(files_string: str) -> dict[str, str]:
 
     try:
         raw_files = yaml.safe_load(files_string)
-        files.update({target: "\n".join(content) for target, content in raw_files.items()})
     except yaml.YAMLError as e:
-        app.logger.error("Could not parse MOTDs: %s", e)
+        app.logger.error("Could not parse FLASK_FILES: %s", e)
         return files
+
+    if not isinstance(raw_files, dict):
+        app.logger.error("FLASK_FILES is not a dictionary")
+        return files
+
+    for filename, content in raw_files.items():
+        if isinstance(content, list):
+            files[filename] = "\n".join(content)
+        else:
+            files[filename] = str(content)
+
+    app.logger.debug("Loaded files: %s", files)
 
     return files
 
 
-app.config["FILES"] = get_files_from_yaml(app.config.get("FILES") or "")
+def process_config() -> None:
+    """Load and process configuration from environment variables."""
+    app.config["PROCESSED_FILES"] = get_files_from_yaml(app.config.get("FILES") or "")
 
 
 def extract_user_agent_info(user_agent: str) -> tuple[str, str, str]:
@@ -55,6 +68,9 @@ def extract_user_agent_info(user_agent: str) -> tuple[str, str, str]:
     Returns:
         Tuple of (version, architecture, cloud_id).
     """
+    if not user_agent:
+        return "", "", ""
+
     version = re.search(r"Ubuntu/(\d{2}\.\d{2})", user_agent)
     arch = re.search(r"/(\w+) cloud_id", user_agent)
     cloud = re.search(r"cloud_id/(\w+)", user_agent)
@@ -88,13 +104,18 @@ def select_motd(files: dict, version: str, arch: str, cloud: str) -> str:
         f"index-{version}.txt" if version else None,
         f"index-{arch}.txt" if arch else None,
         f"index-{cloud}.txt" if cloud else None,
+        "index.txt",
     ]
 
     for candidate in candidates:
         if candidate and candidate in files:
+            app.logger.debug("Selected MOTD file: %s: %s", candidate, files[candidate])
             return files[candidate]
 
     return ""
+
+
+process_config()
 
 
 @app.route("/")
@@ -104,16 +125,9 @@ def index() -> str:
     Returns:
         MOTD content appropriate for the requesting system.
     """
-    if not app.config["FILES"] or not flask.request.user_agent.string:
-        return DEFAULT_MOTD
-
     version, arch, cloud = extract_user_agent_info(flask.request.user_agent.string)
 
-    motd = select_motd(app.config["FILES"], version, arch, cloud)
-    if motd:
-        return motd
-
-    return DEFAULT_MOTD
+    return select_motd(app.config["PROCESSED_FILES"], version, arch, cloud)
 
 
 @app.route("/<path:filename>")
@@ -126,7 +140,7 @@ def serve_file(filename: str) -> tuple[str, int]:
     Returns:
         File content if found, otherwise 404 error.
     """
-    if filename in app.config["FILES"]:
-        return app.config["FILES"][filename]
+    if filename in app.config["PROCESSED_FILES"]:
+        return app.config["PROCESSED_FILES"][filename]
 
     return "Not found", 404
