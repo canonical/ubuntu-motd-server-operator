@@ -26,8 +26,8 @@ provider "juju" {}
 
 module "charm_name" {
   source   = "./.."
-  app_name = "ubuntu-motd-server"
+  app_name = "mymotd"
   channel  = var.channel
-  model    = "prod-ubuntu-motd-server-example"
+  model    = "tf-testing"
   revision = var.revision
 }

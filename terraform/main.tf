@@ -6,7 +6,7 @@ resource "juju_application" "ubuntu_motd_server" {
   model = var.model
 
   charm {
-    name     = "ubuntu_motd_server"
+    name     = "ubuntu-motd-server"
     channel  = var.channel
     revision = var.revision
     base     = var.base
