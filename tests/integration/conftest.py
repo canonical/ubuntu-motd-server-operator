@@ -7,6 +7,7 @@ from collections.abc import Generator
 
 import jubilant
 import pytest
+import yaml
 
 MOTD_APP_NAME = "ubuntu-motd-server"
 MOTD_HEALTH_PATH = "/_health"
@@ -98,7 +99,9 @@ def motd_app_fixture(
     if request.config.getoption("--use-existing"):
         return MOTD_APP_NAME
 
-    juju.deploy(motd_charm, resources=resources)
+    juju.deploy(
+        motd_charm, resources=resources, config={"files": "@tests/integration/charm-files.yaml"}
+    )
     juju.wait(
         lambda status: status.apps[MOTD_APP_NAME].app_status.current == "active",
         error=jubilant.any_blocked,
@@ -113,4 +116,4 @@ def motd_url_fixture(juju: jubilant.Juju, motd_app: str) -> str:
     """URL of the MOTD application."""
     status = juju.status()
     address = status.apps[motd_app].address
-    return f"http://{address}:{MOTD_PORT}/{MOTD_HEALTH_PATH}"
+    return f"http://{address}:{MOTD_PORT}"

@@ -81,7 +81,7 @@ def test_extract_user_agent_info(user_agent, expected):
 def motds_fixture():
     """Fixture providing a sample MOTD files dictionary."""
     return {
-        "index-24.04-amd64-aws.txt": "version amd64 aws",
+        "index-24.04-amd64-aws.txt": "version arch cloud",
         "index-24.04-amd64.txt": "version arch",
         "index-24.04-aws.txt": "version cloud",
         "index-24.04.txt": "version",
@@ -94,12 +94,13 @@ def motds_fixture():
 @pytest.mark.parametrize(
     "version,arch,cloud,expected",
     [
-        ("24.04", "amd64", "aws", "version amd64 aws"),
+        ("24.04", "amd64", "aws", "version arch cloud"),
         ("24.04", "amd64", "gce", "version arch"),
         ("24.04", "arm64", "aws", "version cloud"),
         ("24.04", "arm64", "gce", "version"),
         ("22.04", "amd64", "gce", "arch"),
         ("22.04", "arm64", "aws", "cloud"),
+        ("22.04", "amd64", "aws", "arch cloud"),
         ("20.04", "s390x", "oracle", ""),
     ],
 )

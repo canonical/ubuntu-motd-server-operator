@@ -102,7 +102,7 @@ def select_motd(files: dict, version: str, arch: str, cloud: str) -> str:
         f"index-{version}-{arch}.txt" if (version and arch) else None,
         f"index-{version}-{cloud}.txt" if (version and cloud) else None,
         f"index-{version}.txt" if version else None,
-        f"index-{arch}-{cloud}.txt" if (version and cloud) else None,
+        f"index-{arch}-{cloud}.txt" if (arch and cloud) else None,
         f"index-{arch}.txt" if arch else None,
         f"index-{cloud}.txt" if cloud else None,
         "index.txt",
