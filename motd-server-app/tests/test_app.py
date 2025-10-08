@@ -81,24 +81,25 @@ def test_extract_user_agent_info(user_agent, expected):
 def motds_fixture():
     """Fixture providing a sample MOTD files dictionary."""
     return {
-        "index-24.04-amd64-aws.txt": "Specific MOTD",
-        "index-24.04-amd64.txt": "Version and arch MOTD",
-        "index-24.04-aws.txt": "Version and cloud MOTD",
-        "index-24.04.txt": "Version only MOTD",
-        "index-amd64.txt": "Arch only MOTD",
-        "index-aws.txt": "Cloud only MOTD",
+        "index-24.04-amd64-aws.txt": "version amd64 aws",
+        "index-24.04-amd64.txt": "version arch",
+        "index-24.04-aws.txt": "version cloud",
+        "index-24.04.txt": "version",
+        "index-amd64-aws.txt": "arch cloud",
+        "index-amd64.txt": "arch",
+        "index-aws.txt": "cloud",
     }
 
 
 @pytest.mark.parametrize(
     "version,arch,cloud,expected",
     [
-        ("24.04", "amd64", "aws", "Specific MOTD"),
-        ("24.04", "amd64", "gce", "Version and arch MOTD"),
-        ("24.04", "arm64", "aws", "Version and cloud MOTD"),
-        ("24.04", "arm64", "gce", "Version only MOTD"),
-        ("22.04", "amd64", "gce", "Arch only MOTD"),
-        ("22.04", "arm64", "aws", "Cloud only MOTD"),
+        ("24.04", "amd64", "aws", "version amd64 aws"),
+        ("24.04", "amd64", "gce", "version arch"),
+        ("24.04", "arm64", "aws", "version cloud"),
+        ("24.04", "arm64", "gce", "version"),
+        ("22.04", "amd64", "gce", "arch"),
+        ("22.04", "arm64", "aws", "cloud"),
         ("20.04", "s390x", "oracle", ""),
     ],
 )
