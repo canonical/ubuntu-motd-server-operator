@@ -1,0 +1,241 @@
+index-22.04-amd64-aws.txt:
+- index-22.04-amd64-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-amd64-azure.txt:
+- index-22.04-amd64-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-amd64-gcp.txt:
+- index-22.04-amd64-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-amd64.txt:
+- index-22.04-amd64
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-arm64-aws.txt:
+- index-22.04-arm64-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-arm64-azure.txt:
+- index-22.04-arm64-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-arm64-gcp.txt:
+- index-22.04-arm64-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-arm64.txt:
+- index-22.04-arm64
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-aws.txt:
+- index-22.04-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-azure.txt:
+- index-22.04-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-gcp.txt:
+- index-22.04-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-s390x-aws.txt:
+- index-22.04-s390x-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-s390x-azure.txt:
+- index-22.04-s390x-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-s390x-gcp.txt:
+- index-22.04-s390x-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04-s390x.txt:
+- index-22.04-s390x
+- This is a great MOTD
+- With a lot of interesting content
+
+index-22.04.txt:
+- index-22.04
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-amd64-aws.txt:
+- index-24.04-amd64-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-amd64-azure.txt:
+- index-24.04-amd64-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-amd64-gcp.txt:
+- index-24.04-amd64-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-amd64.txt:
+- index-24.04-amd64
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-arm64-aws.txt:
+- index-24.04-arm64-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-arm64-azure.txt:
+- index-24.04-arm64-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-arm64-gcp.txt:
+- index-24.04-arm64-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-arm64.txt:
+- index-24.04-arm64
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-aws.txt:
+- index-24.04-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-azure.txt:
+- index-24.04-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-gcp.txt:
+- index-24.04-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-s390x-aws.txt:
+- index-24.04-s390x-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-s390x-azure.txt:
+- index-24.04-s390x-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-s390x-gcp.txt:
+- index-24.04-s390x-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04-s390x.txt:
+- index-24.04-s390x
+- This is a great MOTD
+- With a lot of interesting content
+
+index-24.04.txt:
+- index-24.04
+- This is a great MOTD
+- With a lot of interesting content
+
+index-amd64-aws.txt:
+- index-amd64-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-amd64-azure.txt:
+- index-amd64-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-amd64-gcp.txt:
+- index-amd64-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-amd64.txt:
+- index-amd64
+- This is a great MOTD
+- With a lot of interesting content
+
+index-arm64-aws.txt:
+- index-arm64-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-arm64-azure.txt:
+- index-arm64-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-arm64-gcp.txt:
+- index-arm64-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-arm64.txt:
+- index-arm64
+- This is a great MOTD
+- With a lot of interesting content
+
+index-aws.txt:
+- index-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-azure.txt:
+- index-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-gcp.txt:
+- index-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-s390x-aws.txt:
+- index-s390x-aws
+- This is a great MOTD
+- With a lot of interesting content
+
+index-s390x-azure.txt:
+- index-s390x-azure
+- This is a great MOTD
+- With a lot of interesting content
+
+index-s390x-gcp.txt:
+- index-s390x-gcp
+- This is a great MOTD
+- With a lot of interesting content
+
+index-s390x.txt:
+- index-s390x
+- This is a great MOTD
+- With a lot of interesting content
+
+index.txt:
+- index
+- This is a great MOTD
+- With a lot of interesting content
+aptnews.json: '{ "key": "value" }'
+aptnews-schema.json: '{ "key": "value" }'
