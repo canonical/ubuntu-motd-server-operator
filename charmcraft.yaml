@@ -24,8 +24,8 @@ extensions:
 
 config:
   options:
-    MOTDS:
+    files:
       description: |
-        The MOTDs to be returned by the server.
+        The files to be returned by the server.
       default: ""
       type: string
