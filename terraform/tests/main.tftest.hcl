@@ -5,7 +5,7 @@ variables {
   channel = "latest/edge"
   # renovate: depName="charm_name"
   revision = 1
-  model = "tf-testing"
+  model    = "tf-testing"
 }
 
 run "basic_deploy" {
