@@ -9,7 +9,7 @@ variables {
 
 run "basic_deploy" {
   assert {
-    condition     = module.charm_name.app_name == "charm_name"
+    condition     = module.charm_name.app_name == "ubuntu-motd-server"
     error_message = "charm_name app_name did not match expected"
   }
 }
