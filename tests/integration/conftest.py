@@ -7,7 +7,6 @@ from collections.abc import Generator
 
 import jubilant
 import pytest
-import yaml
 
 MOTD_APP_NAME = "ubuntu-motd-server"
 MOTD_HEALTH_PATH = "/_health"

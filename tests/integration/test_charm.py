@@ -48,7 +48,8 @@ def test_specific_motds(motd_url: str):
     act: Get a non existing page.
     assert: The _health endpoint returns 404
     """
-    # Example UA: wget/1.21.4-1ubuntu4.1 Ubuntu/24.04.1/LTS GNU/Linux/6.8.0-1021-aws/aarch64 cloud_id/aws
+    # Example UA:
+    # wget/1.21.4-1ubuntu4.1 Ubuntu/24.04.1/LTS GNU/Linux/6.8.0-1021-aws/aarch64 cloud_id/aws
     for version in ["", "22.04", "24.04"]:
         for arch in ["", "amd64", "arm64", "s390x"]:
             for cloud in ["", "aws", "azure", "gcp"]:

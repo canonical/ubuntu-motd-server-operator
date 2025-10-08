@@ -26,4 +26,5 @@ header:
     - 'lib/**'
     - '**/*.md.j2'
     - '.trivyignore'
+    - 'tests/integration/charm-files.yaml'
   comment: on-failure
