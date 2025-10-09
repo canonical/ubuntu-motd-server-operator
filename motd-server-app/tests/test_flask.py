@@ -73,3 +73,11 @@ def test_404(client):
     response = client.get("/does_not_exist", headers={"User-Agent": ""})
     assert response.status_code == 404
     assert response.data.decode() == "Not found"
+
+
+def test_no_index(client):
+    """Test behavior when no index file is present."""
+    app.config["PROCESSED_FILES"] = ""
+    response = client.get("/", headers={"User-Agent": ""})
+    assert response.data.decode() == "Not found"
+    assert response.status_code == 404

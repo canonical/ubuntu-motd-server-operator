@@ -120,7 +120,7 @@ process_config()
 
 
 @app.route("/")
-def index() -> str:
+def index() -> tuple[str, int]:
     """Serve MOTD content based on user agent information.
 
     Returns:
@@ -128,7 +128,10 @@ def index() -> str:
     """
     version, arch, cloud = extract_user_agent_info(flask.request.user_agent.string)
 
-    return select_motd(app.config["PROCESSED_FILES"], version, arch, cloud)
+    motd = select_motd(app.config["PROCESSED_FILES"], version, arch, cloud)
+    if motd:
+        return motd, 200
+    return "Not found", 404
 
 
 @app.route("/<path:filename>")
