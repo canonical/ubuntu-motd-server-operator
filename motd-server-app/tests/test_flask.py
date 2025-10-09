@@ -33,35 +33,55 @@ aptnews.json: apt news
 
 
 def test_health(client):
-    """Test default behavior when no configuration is provided."""
+    """
+    arrange: given a motd server with a valid config
+    act: when we call the health endpoint
+    assert: then we get a 200 OK with the health content
+    """
     response = client.get(f"/{HEALTH_PATH}")
     assert response.status_code == 200
     assert response.data.decode() == HEALTH_CONTENT
 
 
 def test_no_user_agent(client):
-    """Test default behavior when no configuration is provided."""
+    """
+    arrange: given a motd server with a valid config
+    act: when we call the root of the website with an empty user agent
+    assert: then we get a 200 OK with the index.txt content
+    """
     response = client.get("/", headers={"User-Agent": ""})
     assert response.status_code == 200
     assert response.data.decode() == "index"
 
 
 def test_default_index(client):
-    """Test default index route without specific user agent."""
+    """
+    arrange: given a motd server with a valid config
+    act: when we call the root of the website with no user agent
+    assert: then we get a 200 OK with the index.txt content
+    """
     response = client.get("/")
     assert response.status_code == 200
     assert response.data.decode() == "index"
 
 
 def test_non_motd(client):
-    """Test serving a non-MOTD file."""
+    """
+    arrange: given a motd server with a valid config
+    act: when we call a non-motd file
+    assert: then we get a 200 OK with the file content
+    """
     response = client.get("/aptnews.json")
     assert response.status_code == 200
     assert response.data.decode() == "apt news"
 
 
 def test_motd(client):
-    """Test serving a specific MOTD based on user agent."""
+    """
+    arrange: given a motd server with a valid config
+    act: when we call a the root of the website with a user agent that matches a specific motd
+    assert: then we get a 200 OK with the specific motd content
+    """
     response = client.get(
         "/", headers={"User-Agent": "curl/7.68.0 Ubuntu/22.04/amd64 cloud_id/aws"}
     )
@@ -70,14 +90,22 @@ def test_motd(client):
 
 
 def test_404(client):
-    """Test 404 response for non-existing file."""
+    """
+    arrange: given a motd server with a valid config
+    act: when we call a non existing file
+    assert: then we get a 404 with "Not found" content
+    """
     response = client.get("/does_not_exist", headers={"User-Agent": ""})
     assert response.status_code == 404
     assert response.data.decode() == "Not found"
 
 
 def test_no_index(client):
-    """Test behavior when no index file is present."""
+    """
+    arrange: given a motd server with no index.txt in the config
+    act: when we call the root of the website
+    assert: then we get a 404 with "Not found" content
+    """
     app.config["PROCESSED_FILES"] = ""
     response = client.get("/", headers={"User-Agent": ""})
     assert response.data.decode() == "Not found"

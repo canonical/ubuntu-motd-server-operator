@@ -7,8 +7,6 @@ import pytest
 
 from motd_server.motd import (
     DEFAULT_FILES,
-    HEALTH_CONTENT,
-    HEALTH_PATH,
     extract_user_agent_info,
     get_files_from_yaml,
     select_motd,
@@ -38,23 +36,35 @@ index-22.04.txt:
 
 
 def test_get_files_from_non_dict_yaml():
-    """Test loading files from an invalid YAML string."""
+    """
+    arrange: an invalid YAML content (not a dict)
+    act: when we try to get the files from it
+    assert: we get only the default files
+    """
 
     # If content is invalid, we silently fail and return healthcheck only
     result = get_files_from_yaml("not a dict")
 
-    assert result == {HEALTH_PATH: HEALTH_CONTENT}
+    assert result == DEFAULT_FILES
 
 
 def test_get_files_from_invalid_yaml():
-    """Test handling of invalid YAML string."""
+    """
+    arrange: an invalid YAML content (bad syntax)
+    act: when we try to get the files from it
+    assert: we get only the default files
+    """
     yaml_content = "::: invalid yaml :-::"
     result = get_files_from_yaml(yaml_content)
     assert result == DEFAULT_FILES
 
 
 def test_get_files_from_enpty_yaml():
-    """Test handling of empty YAML string."""
+    """
+    arrange: an empty YAML content
+    act: when we try to get the files from it
+    assert: we get only the default files
+    """
     result = get_files_from_yaml("")
     assert result == DEFAULT_FILES
 
@@ -71,7 +81,11 @@ def test_get_files_from_enpty_yaml():
     ],
 )
 def test_extract_user_agent_info(user_agent, expected):
-    """Test extraction of version, architecture, and cloud from user agent."""
+    """
+    arrange: a user agent string following the expected patterns
+    act: when we try to retrieve the version, arch, and cloud from it
+    assert: we get the expected values
+    """
     assert extract_user_agent_info(user_agent) == expected
 
 
@@ -103,15 +117,27 @@ def motds_fixture():
     ],
 )
 def test_select_motd_most_specific_match(motds, version, arch, cloud, expected):
-    """Test selection of MOTD based on version, architecture, and cloud."""
+    """
+    arrange: a set of MOTD files and various version, architecture, and cloud combinations
+    act: when we try to retrieve the motd for a give combination
+    assert: we get the expected values
+    """
     assert select_motd(motds, version, arch, cloud) == expected
 
 
 def test_select_motd_empty_files_dict():
-    """Test selection of MOTD when files dictionary is empty."""
+    """
+    arrange: an empty set of motd files
+    act: when we try to retrieve the motd for a given version, arch, and cloud combination
+    assert: we get an empty string
+    """
     assert select_motd({}, "24.04", "amd64", "aws") == ""
 
 
 def test_select_motd_empty_parameters(motds):
-    """Test selection of MOTD when version, architecture, and cloud are empty."""
+    """
+    arrange: a valid set of motd files
+    act: when we try to retrieve the motd for empty version, arch, and cloud
+    assert: we get an empty string
+    """
     assert select_motd(motds, "", "", "") == ""
