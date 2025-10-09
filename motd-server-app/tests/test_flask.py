@@ -5,7 +5,8 @@
 
 import pytest
 
-from app import HEALTH_CONTENT, HEALTH_PATH, app, process_config
+from app import app
+from motd_server.motd import HEALTH_CONTENT, HEALTH_PATH, process_config
 
 
 @pytest.fixture(name="client")
@@ -25,7 +26,7 @@ index-22.04-amd64-aws.txt:
 aptnews.json: apt news
 {HEALTH_PATH}: {HEALTH_CONTENT}
     """
-    process_config()
+    process_config(app)
 
     with app.test_client() as client:
         yield client

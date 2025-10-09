@@ -5,7 +5,7 @@
 
 import pytest
 
-from app import (
+from motd_server.motd import (
     DEFAULT_FILES,
     HEALTH_CONTENT,
     HEALTH_PATH,
