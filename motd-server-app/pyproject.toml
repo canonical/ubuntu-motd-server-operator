@@ -2,12 +2,12 @@
 # See LICENSE file for licensing details.
 
 [project]
-name = "github-runner-image-builder"
-version = "0.10.0"
+name = "motd-server-app"
+version = "0.1.0"
 authors = [
     { name = "Canonical IS DevOps", email = "is-devops-team@canonical.com" },
 ]
-description = "A github runner image builder package"
+description = "A simple motd server"
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
@@ -17,23 +17,8 @@ classifiers = [
 ]
 dynamic = ["dependencies"]
 
-[project.urls]
-Homepage = "https://github.com/canonical/github-runner-image-builder"
-Issues = "https://github.com/canonical/github-runner-image-builder/issues"
-
-[project.scripts]
-github-runner-image-builder = "github_runner_image_builder.cli:main"
-
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }
-
-[tool.setuptools.package-data]
-"github_runner_image_builder.templates" = ["*.j2"]
-
-[tool.pydocstyle]
-match = "src/github_runner_image_builder/cli.py"
-ignore = ["D301"] # ignore backshlashes in docstring - click lib uses them.
-
 
 [tool.bandit]
 exclude_dirs = ["/venv/"]
