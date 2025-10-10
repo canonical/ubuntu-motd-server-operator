@@ -15,8 +15,6 @@ permissions:
 
 jobs:
   test-terraform:
-    # remove this condition for enabling the workflow
-    if: false 
     name: Test Terraform with Juju
     runs-on: ubuntu-latest
     env:
@@ -52,7 +50,7 @@ jobs:
     - run: terraform show tfplan
       working-directory: ${{env.WORKING_DIR}}
     - run: |
-        juju add-model prod-chat-example
+        juju add-model tf-testing
         set -e  # Exit on error
         terraform test || { echo "Terraform test failed"; exit 1; }
       working-directory: ${{env.WORKING_DIR}}

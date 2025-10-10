@@ -26,8 +26,8 @@ provider "juju" {}
 
 module "charm_name" {
   source   = "./.."
-  app_name = "charm_name"
+  app_name = "mymotd"
   channel  = var.channel
-  model    = "prod-charm_name-example"
+  model    = "tf-testing"
   revision = var.revision
 }

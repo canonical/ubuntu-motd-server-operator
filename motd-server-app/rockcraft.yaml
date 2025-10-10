@@ -1,0 +1,20 @@
+# Copyright 2025 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+name: motd-server-app
+base: ubuntu@22.04
+version: "0.15"
+summary: Ubuntu MOTD server
+description: |
+  This app serves the Message Of The Day (MOTD) for the Ubuntu servers.
+platforms:
+  amd64:
+
+extensions:
+  - flask-framework
+
+parts:
+  flask-framework/install-app:
+    prime:
+      - flask/app/app.py
+      - flask/app/motd_server

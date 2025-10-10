@@ -1,12 +1,12 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
-resource "juju_application" "charm_name" {
+resource "juju_application" "ubuntu_motd_server" {
   name  = var.app_name
   model = var.model
 
   charm {
-    name     = "<charm_name>"
+    name     = "ubuntu-motd-server"
     channel  = var.channel
     revision = var.revision
     base     = var.base

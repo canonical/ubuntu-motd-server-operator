@@ -5,35 +5,50 @@
 
 """Integration tests."""
 
-import asyncio
 import logging
 from pathlib import Path
 
-import pytest
+import requests
 import yaml
-from pytest_operator.plugin import OpsTest
 
 logger = logging.getLogger(__name__)
 
 CHARMCRAFT_DATA = yaml.safe_load(Path("./charmcraft.yaml").read_text(encoding="utf-8"))
 APP_NAME = CHARMCRAFT_DATA["name"]
 
+MOTD_HEALTH_CONTENT = "OK"
+NOT_FOUND_CONTENT = "Not found"
 
-@pytest.mark.abort_on_fail
-async def test_build_and_deploy(ops_test: OpsTest, pytestconfig: pytest.Config):
-    """Deploy the charm together with related charms.
 
-    Assert on the unit status before any relations/configurations take place.
+def test_health(motd_url: str):
     """
-    # Deploy the charm and wait for active/idle status
-    charm = pytestconfig.getoption("--charm-file")
-    resources = {"httpbin-image": CHARMCRAFT_DATA["resources"]["httpbin-image"]["upstream-source"]}
-    assert ops_test.model
-    await asyncio.gather(
-        ops_test.model.deploy(
-            f"./{charm}", resources=resources, application_name=APP_NAME, series="jammy"
-        ),
-        ops_test.model.wait_for_idle(
-            apps=[APP_NAME], status="active", raise_on_blocked=True, timeout=1000
-        ),
-    )
+    arrange: Deploy the motd-server-app charm.
+    act: Get the _health endpoint.
+    assert: The _health endpoint returns 200 OK.
+    """
+    res = requests.get(motd_url + "/_health", timeout=5)
+    assert res.status_code == 200
+    assert res.text == MOTD_HEALTH_CONTENT
+
+
+def test_404(motd_url: str):
+    """
+    arrange: Deploy the motd-server-app charm.
+    act: Get a non existing page.
+    assert: The _health endpoint returns 404
+    """
+    res = requests.get(motd_url + "/does_not_exist", timeout=5)
+    assert res.status_code == 404
+    assert res.text == NOT_FOUND_CONTENT
+
+
+def test_specific_motds(motd_url: str, expected_motd_contents: dict[str, str]):
+    """
+    arrange: Deploy the motd-server-app charm.
+    act: Get / with a specific user agent
+    assert: The server returns the expected MOTD content.
+    """
+    for user_agent, expected_content in expected_motd_contents.items():
+        res = requests.get(motd_url, timeout=5, headers={"User-Agent": user_agent})
+        assert res.status_code == 200, f"Bad status for UA: {user_agent}"
+        assert res.text == expected_content, f"Bad content for UA: {user_agent}"
