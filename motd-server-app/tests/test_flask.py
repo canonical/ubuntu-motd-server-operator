@@ -41,6 +41,7 @@ def test_health(client):
     response = client.get(f"/{HEALTH_PATH}")
     assert response.status_code == 200
     assert response.data.decode() == HEALTH_CONTENT
+    assert response.content_type == "text/plain; charset=utf-8"
 
 
 def test_no_user_agent(client):
@@ -52,6 +53,7 @@ def test_no_user_agent(client):
     response = client.get("/", headers={"User-Agent": ""})
     assert response.status_code == 200
     assert response.data.decode() == "index"
+    assert response.content_type == "text/plain; charset=utf-8"
 
 
 def test_default_index(client):
@@ -63,6 +65,7 @@ def test_default_index(client):
     response = client.get("/")
     assert response.status_code == 200
     assert response.data.decode() == "index"
+    assert response.content_type == "text/plain; charset=utf-8"
 
 
 def test_non_motd(client):
@@ -74,6 +77,7 @@ def test_non_motd(client):
     response = client.get("/aptnews.json")
     assert response.status_code == 200
     assert response.data.decode() == "apt news"
+    assert response.content_type == "application/json"
 
 
 def test_motd(client):
@@ -87,6 +91,7 @@ def test_motd(client):
     )
     assert response.status_code == 200
     assert response.data.decode() == "22.04-amd64-aws\nadditional line"
+    assert response.content_type == "text/plain; charset=utf-8"
 
 
 def test_404(client):
@@ -98,6 +103,7 @@ def test_404(client):
     response = client.get("/does_not_exist", headers={"User-Agent": ""})
     assert response.status_code == 404
     assert response.data.decode() == "Not found"
+    assert response.content_type == "text/plain; charset=utf-8"
 
 
 def test_no_index(client):
@@ -110,3 +116,4 @@ def test_no_index(client):
     response = client.get("/", headers={"User-Agent": ""})
     assert response.data.decode() == "Not found"
     assert response.status_code == 404
+    assert response.content_type == "text/plain; charset=utf-8"
