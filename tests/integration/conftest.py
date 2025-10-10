@@ -116,3 +116,37 @@ def motd_url_fixture(juju: jubilant.Juju, motd_app: str) -> str:
     status = juju.status()
     address = status.apps[motd_app].address
     return f"http://{address}:{MOTD_PORT}"
+
+
+### This fixture should remain aligned with the one from the app ###
+@pytest.fixture(name="expected_motd_contents")
+def generate_expected_contents() -> dict[str, str]:
+    """Generate expected content for all combinations of version, arch, cloud."""
+    expected_contents = {}
+    # Example UA:
+    # wget/1.21.4-1ubuntu4.1 Ubuntu/24.04.1/LTS GNU/Linux/6.8.0-1021-aws/aarch64 cloud_id/aws
+    for version in ["", "22.04", "24.04"]:
+        for arch in ["", "amd64", "arm64", "s390x"]:
+            for cloud in ["", "aws", "azure", "gcp"]:
+                if arch and not cloud:
+                    continue
+
+                expected_content = "index"
+                user_agent = "wget/1.21.4-1ubuntu4.1"
+
+                if version:
+                    expected_content += f"-{version}"
+                    user_agent += f" Ubuntu/{version}"
+                if arch:
+                    expected_content += f"-{arch}"
+                    user_agent += f" GNU/Linux/6.8.0/{arch}"
+                if cloud:
+                    expected_content += f"-{cloud}"
+                    user_agent += f" cloud_id/{cloud}"
+
+                expected_content += (
+                    "\n" + "This is a great MOTD\nWith a lot of interesting content\n"
+                )
+                expected_contents[user_agent] = expected_content
+
+    return expected_contents

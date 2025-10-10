@@ -3,7 +3,7 @@
 
 name: motd-server-app
 base: ubuntu@22.04
-version: "0.14"
+version: "0.15"
 summary: Ubuntu MOTD server
 description: |
   This app serves the Message Of The Day (MOTD) for the Ubuntu servers.

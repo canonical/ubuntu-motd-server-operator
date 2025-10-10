@@ -42,37 +42,13 @@ def test_404(motd_url: str):
     assert res.text == NOT_FOUND_CONTENT
 
 
-def test_specific_motds(motd_url: str):
+def test_specific_motds(motd_url: str, expected_motd_contents: dict[str, str]):
     """
     arrange: Deploy the motd-server-app charm.
-    act: Get a non existing page.
-    assert: The _health endpoint returns 404
+    act: Get / with a specific user agent
+    assert: The server returns the expected MOTD content.
     """
-    # Example UA:
-    # wget/1.21.4-1ubuntu4.1 Ubuntu/24.04.1/LTS GNU/Linux/6.8.0-1021-aws/aarch64 cloud_id/aws
-    for version in ["", "22.04", "24.04"]:
-        for arch in ["", "amd64", "arm64", "s390x"]:
-            for cloud in ["", "aws", "azure", "gcp"]:
-                if arch and not cloud:
-                    continue
-
-                expected_content = "index"
-                user_agent = "wget/1.21.4-1ubuntu4.1"
-
-                if version:
-                    expected_content += f"-{version}"
-                    user_agent += f" Ubuntu/{version}"
-                if arch:
-                    expected_content += f"-{arch}"
-                    user_agent += f" GNU/Linux/6.8.0/{arch}"
-                if cloud:
-                    expected_content += f"-{cloud}"
-                    user_agent += f" cloud_id/{cloud}"
-
-                expected_content += (
-                    "\n" + "This is a great MOTD\nWith a lot of interesting content"
-                )
-
-                res = requests.get(motd_url, timeout=5, headers={"User-Agent": user_agent})
-                assert res.status_code == 200, f"Bad status for UA: {user_agent}"
-                assert res.text == expected_content, f"Bad content for UA: {user_agent}"
+    for user_agent, expected_content in expected_motd_contents.items():
+        res = requests.get(motd_url, timeout=5, headers={"User-Agent": user_agent})
+        assert res.status_code == 200, f"Bad status for UA: {user_agent}"
+        assert res.text == expected_content, f"Bad content for UA: {user_agent}"
