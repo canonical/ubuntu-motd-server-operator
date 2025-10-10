@@ -9,6 +9,7 @@ from motd_server.motd import (
     DEFAULT_FILES,
     extract_user_agent_info,
     get_files_from_yaml,
+    process_config,
     select_motd,
 )
 
@@ -141,3 +142,29 @@ def test_select_motd_empty_parameters(motds):
     assert: we get an empty string
     """
     assert select_motd(motds, "", "", "") == ""
+
+
+def test_process_config_missing_files():
+    """
+    arrange: a config with no FILES environment variable
+    act: when we process the config
+    assert: we get only the default files in PROCESSED_FILES
+    """
+    config: dict = {}
+    process_config(config)
+
+    assert config["PROCESSED_FILES"] == DEFAULT_FILES
+
+
+def test_process_config_with_files():
+    """
+    arrange: a config with a valid FILES variable
+    act: when we process the config
+    assert: files are available in PROCESSED_FILES
+    """
+    config = {"FILES": "index.txt: index"}
+    process_config(config)
+
+    expected = DEFAULT_FILES.copy()
+    expected.update({"index.txt": "index"})
+    assert config["PROCESSED_FILES"] == expected

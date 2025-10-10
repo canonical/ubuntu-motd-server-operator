@@ -12,7 +12,7 @@ from motd_server.utils import get_mime_type
 app = flask.Flask(__name__)
 app.response_class = TextResponse
 app.config.from_prefixed_env()
-process_config(app)
+process_config(app.config)
 
 
 @app.route("/")

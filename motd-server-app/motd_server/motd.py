@@ -13,9 +13,9 @@ DEFAULT_FILES = {HEALTH_PATH: HEALTH_CONTENT}
 logger = logging.getLogger(__name__)
 
 
-def process_config(app) -> None:
+def process_config(config) -> None:
     """Load and process configuration from environment variables."""
-    app.config["PROCESSED_FILES"] = get_files_from_yaml(app.config.get("FILES", {}))
+    config["PROCESSED_FILES"] = get_files_from_yaml(config.get("FILES", {}))
 
 
 def get_files_from_yaml(files_string: str) -> dict[str, str]:
