@@ -3,7 +3,7 @@
 
 name: motd-server-app
 base: ubuntu@22.04
-version: "0.8"
+version: "0.12"
 summary: Ubuntu MOTD server
 description: |
   This app serves the Message Of The Day (MOTD) for the Ubuntu servers.
@@ -12,3 +12,9 @@ platforms:
 
 extensions:
   - flask-framework
+
+parts:
+  flask-framework/install-app:
+    prime:
+      - flask/app/app.py
+      - flask/app/motd_server
