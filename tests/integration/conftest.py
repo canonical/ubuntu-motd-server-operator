@@ -118,7 +118,7 @@ def motd_url_fixture(juju: jubilant.Juju, motd_app: str) -> str:
     return f"http://{address}:{MOTD_PORT}"
 
 
-### This fixture should remain aligned with the one from the app ###
+# This fixture should remain aligned with the one from the app
 @pytest.fixture(name="expected_motd_contents")
 def generate_expected_contents() -> dict[str, str]:
     """Generate expected content for all combinations of version, arch, cloud."""
