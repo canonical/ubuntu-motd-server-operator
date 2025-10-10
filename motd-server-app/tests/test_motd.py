@@ -17,18 +17,18 @@ def test_get_files_from_yaml():
     """Test loading files from a valid YAML string."""
 
     yaml_content = """
-index-24.04.txt:
-  - Welcome to Ubuntu 24.04
-  - System information
+index-24.04.txt: |
+  Welcome to Ubuntu 24.04
+  System information
 
 index-22.04.txt: 
-  - Welcome to Ubuntu 22.04
+  Welcome to Ubuntu 22.04
 """
     result = get_files_from_yaml(yaml_content)
     expected = DEFAULT_FILES.copy()
     expected.update(
         {
-            "index-24.04.txt": "Welcome to Ubuntu 24.04\nSystem information",
+            "index-24.04.txt": "Welcome to Ubuntu 24.04\nSystem information\n",
             "index-22.04.txt": "Welcome to Ubuntu 22.04",
         }
     )

@@ -20,9 +20,9 @@ def client_fixture():
     app.config[
         "FILES"
     ] = f"""index.txt: index
-index-22.04-amd64-aws.txt:
-- 22.04-amd64-aws
-- additional line
+index-22.04-amd64-aws.txt: |
+  22.04-amd64-aws
+  additional line
 aptnews.json: apt news
 {HEALTH_PATH}: {HEALTH_CONTENT}
     """
@@ -90,7 +90,7 @@ def test_motd(client):
         "/", headers={"User-Agent": "curl/7.68.0 Ubuntu/22.04/amd64 cloud_id/aws"}
     )
     assert response.status_code == 200
-    assert response.data.decode() == "22.04-amd64-aws\nadditional line"
+    assert response.data.decode() == "22.04-amd64-aws\nadditional line\n"
     assert response.content_type == "text/plain; charset=utf-8"
 
 

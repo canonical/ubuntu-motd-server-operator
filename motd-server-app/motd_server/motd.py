@@ -44,11 +44,7 @@ def get_files_from_yaml(files_string: str) -> dict[str, str]:
         logger.error("FLASK_FILES is not a dictionary")
         return files
 
-    for filename, content in raw_files.items():
-        if isinstance(content, list):
-            files[filename] = "\n".join(content)
-        else:
-            files[filename] = str(content)
+    files.update(raw_files)
 
     logger.debug("Loaded files: %s", files)
 
