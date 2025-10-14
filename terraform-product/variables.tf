@@ -6,10 +6,10 @@ variable "model" {
   type        = string
 }
 
-variable "netbox_k8s" {
+variable "ubuntu_motd_server" {
   type = object({
-    app_name    = optional(string, "netbox-k8s")
-    channel     = optional(string, "4/edge")
+    app_name    = optional(string, "motd-server")
+    channel     = optional(string, "latest/edge")
     config      = optional(map(string), {})
     constraints = optional(string, "arch=amd64")
     revision    = optional(number)
@@ -39,32 +39,6 @@ variable "traefik_k8s" {
     constraints = optional(string, "arch=amd64")
     revision    = optional(number)
     base        = optional(string, "ubuntu@20.04")
-    units       = optional(number, 1)
-    storage     = optional(map(string), {})
-  })
-}
-
-variable "redis_k8s" {
-  type = object({
-    app_name    = optional(string, "redis-k8s")
-    channel     = optional(string, "latest/edge")
-    config      = optional(map(string), {})
-    constraints = optional(string, "arch=amd64")
-    revision    = optional(number, null)
-    base        = optional(string, "ubuntu@22.04")
-    units       = optional(number, 1)
-    storage     = optional(map(string), {})
-  })
-}
-
-variable "s3" {
-  type = object({
-    app_name    = optional(string, "s3-integrator")
-    channel     = optional(string, "latest/stable")
-    config      = optional(map(string), {})
-    constraints = optional(string, "arch=amd64")
-    revision    = optional(number, null)
-    base        = optional(string, "ubuntu@22.04")
     units       = optional(number, 1)
     storage     = optional(map(string), {})
   })

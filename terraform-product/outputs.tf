@@ -3,7 +3,7 @@
 
 output "app_name" {
   description = "Name of the deployed application."
-  value       = module.netbox_k8s.app_name
+  value       = module.ubuntu_motd_server.app_name
 }
 
 output "requires" {
