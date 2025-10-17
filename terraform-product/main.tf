@@ -54,11 +54,11 @@ resource "juju_integration" "traefik_certs" {
 
   application {
     name     = module.traefik_k8s.app_name
-    endpoint = module.traefik_k8s.output.endpoints.certificates
+    endpoint = module.traefik_k8s.endpoints.certificates
   }
 
   application {
     name     = module.httprequest_lego.app_name
-    endpoint = module.httprequest_lego.output.endpoints.certificates
+    endpoint = module.httprequest_lego.endpoints.certificates
   }
 }
