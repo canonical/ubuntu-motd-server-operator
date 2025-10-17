@@ -25,7 +25,6 @@ module "traefik_k8s" {
   constraints = var.traefik_k8s.constraints
   model       = data.juju_model.ubuntu_motd_server.name
   revision    = var.traefik_k8s.revision
-  base        = var.traefik_k8s.base
   units       = var.traefik_k8s.units
 }
 
