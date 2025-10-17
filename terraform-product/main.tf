@@ -42,12 +42,12 @@ resource "juju_integration" "motd_traefik" {
 
   application {
     name     = module.ubuntu_motd_server.app_name
-    endpoint = module.ubuntu_motd_server.requires.ingress
+    endpoint = module.ubuntu_motd_server.endpoints.ingress
   }
 
   application {
     name     = module.traefik_k8s.app_name
-    endpoint = module.traefik_k8s.provides.ingress
+    endpoint = module.traefik_k8s.endpoints.ingress
   }
 }
 
