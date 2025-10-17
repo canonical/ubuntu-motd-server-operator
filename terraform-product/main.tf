@@ -18,7 +18,7 @@ module "ubuntu_motd_server" {
 }
 
 module "traefik_k8s" {
-  source      = "./modules/traefik-k8s"
+  source      = "git::https://github.com/canonical/traefik-k8s-operator//terraform?depth=1"
   app_name    = var.traefik_k8s.app_name
   channel     = var.traefik_k8s.channel
   config      = var.traefik_k8s.config
@@ -29,16 +29,13 @@ module "traefik_k8s" {
   units       = var.traefik_k8s.units
 }
 
-module "httprequest_lego_k8s" {
-  source      = "./modules/httprequest-lego-k8s"
-  app_name    = var.httprequest_lego_k8s.app_name
-  channel     = var.httprequest_lego_k8s.channel
-  config      = var.httprequest_lego_k8s.config
-  constraints = var.httprequest_lego_k8s.constraints
-  model       = data.juju_model.ubuntu_motd_server.name
-  revision    = var.httprequest_lego_k8s.revision
-  base        = var.httprequest_lego_k8s.base
-  units       = var.httprequest_lego_k8s.units
+module "httprequest_lego" {
+  count    = length(local.offers.certificate_provider) > 0 ? 0 : 1
+  model    = data.juju_model.ubuntu_motd_server.name
+  source   = "git::https://github.com/canonical/httprequest-lego-provider//terraform?depth=1&ref=feat/terraform_module"
+  channel  = local.channels.lego
+  revision = local.revisions.lego
+  config   = local.config_lego
 }
 
 resource "juju_integration" "motd_traefik" {
@@ -56,6 +53,8 @@ resource "juju_integration" "motd_traefik" {
 }
 
 resource "juju_integration" "traefik_certs" {
+  count = length(local.offers.certificate_provider) > 0 ? 0 : 1
+
   model = data.juju_model.ubuntu_motd_server.name
 
   application {
@@ -64,7 +63,7 @@ resource "juju_integration" "traefik_certs" {
   }
 
   application {
-    name     = module.httprequest_lego_k8s.app_name
-    endpoint = module.httprequest_lego_k8s.provides.certificates
+    name     = module.httprequest_lego.app_name
+    endpoint = module.httprequest_lego.provides.certificates
   }
 }
