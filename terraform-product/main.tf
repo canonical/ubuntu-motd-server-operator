@@ -25,7 +25,6 @@ module "traefik_k8s" {
 }
 
 module "httprequest_lego" {
-  count    = length(local.offers.certificate_provider) > 0 ? 0 : 1
   model    = var.model
   source   = "git::https://github.com/canonical/httprequest-lego-provider//terraform?depth=1&ref=feat/terraform_module"
   channel  = var.httprequest_lego.channel
