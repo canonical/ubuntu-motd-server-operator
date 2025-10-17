@@ -1,16 +1,12 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
-data "juju_model" "ubuntu_motd_server" {
-  name = var.model
-}
-
 module "ubuntu_motd_server" {
   source      = "../terraform"
   app_name    = var.ubuntu_motd_server.app_name
   channel     = var.ubuntu_motd_server.channel
   config      = var.ubuntu_motd_server.config
-  model       = data.juju_model.ubuntu_motd_server.name
+  model       = var.model
   constraints = var.ubuntu_motd_server.constraints
   revision    = var.ubuntu_motd_server.revision
   base        = var.ubuntu_motd_server.base
@@ -23,14 +19,14 @@ module "traefik_k8s" {
   channel     = var.traefik_k8s.channel
   config      = var.traefik_k8s.config
   constraints = var.traefik_k8s.constraints
-  model       = data.juju_model.ubuntu_motd_server.name
+  model       = var.model
   revision    = var.traefik_k8s.revision
   units       = var.traefik_k8s.units
 }
 
 module "httprequest_lego" {
   count    = length(local.offers.certificate_provider) > 0 ? 0 : 1
-  model    = data.juju_model.ubuntu_motd_server.name
+  model    = var.model
   source   = "git::https://github.com/canonical/httprequest-lego-provider//terraform?depth=1&ref=feat/terraform_module"
   channel  = var.httprequest_lego.channel
   revision = var.httprequest_lego.revision
@@ -38,7 +34,7 @@ module "httprequest_lego" {
 }
 
 resource "juju_integration" "motd_traefik" {
-  model = data.juju_model.ubuntu_motd_server.name
+  model = var.model
 
   application {
     name     = module.ubuntu_motd_server.app_name
@@ -54,15 +50,15 @@ resource "juju_integration" "motd_traefik" {
 resource "juju_integration" "traefik_certs" {
   count = length(local.offers.certificate_provider) > 0 ? 0 : 1
 
-  model = data.juju_model.ubuntu_motd_server.name
+  model = var.model
 
   application {
     name     = module.traefik_k8s.app_name
-    endpoint = module.traefik_k8s.endpoints.certificates
+    endpoint = module.traefik_k8s.output.endpoints.certificates
   }
 
   application {
     name     = module.httprequest_lego.app_name
-    endpoint = module.httprequest_lego.endpoints.certificates
+    endpoint = module.httprequest_lego.output.endpoints.certificates
   }
 }
