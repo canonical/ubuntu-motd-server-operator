@@ -32,9 +32,9 @@ module "httprequest_lego" {
   count    = length(local.offers.certificate_provider) > 0 ? 0 : 1
   model    = data.juju_model.ubuntu_motd_server.name
   source   = "git::https://github.com/canonical/httprequest-lego-provider//terraform?depth=1&ref=feat/terraform_module"
-  channel  = local.channels.lego
-  revision = local.revisions.lego
-  config   = local.config_lego
+  channel  = var.httprequest_lego.channel
+  revision = var.httprequest_lego.revision
+  config   = var.httprequest_lego.config
 }
 
 resource "juju_integration" "motd_traefik" {
