@@ -47,8 +47,6 @@ resource "juju_integration" "motd_traefik" {
 }
 
 resource "juju_integration" "traefik_certs" {
-  count = length(local.offers.certificate_provider) > 0 ? 0 : 1
-
   model = var.model
 
   application {
