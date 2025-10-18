@@ -26,7 +26,7 @@ module "traefik_k8s" {
 
 module "lego" {
   model    = var.model
-  source   = "git::ssh://git@github.com/canonical/platform-engineering-staging-deployments//modules?depth=1&ref=feat/1st_iteration"
+  source   = "git::ssh://git@github.com/canonical/platform-engineering-staging-deployments//modules/lego?depth=1&ref=feat/1st_iteration"
   app_name = var.lego.app_name
   channel  = var.lego.channel
   revision = var.lego.revision
