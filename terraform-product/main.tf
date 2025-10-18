@@ -24,12 +24,13 @@ module "traefik_k8s" {
   units       = var.traefik_k8s.units
 }
 
-module "httprequest_lego" {
+module "lego" {
   model    = var.model
-  source   = "git::https://github.com/canonical/httprequest-lego-provider//terraform?depth=1&ref=feat/terraform_module"
-  channel  = var.httprequest_lego.channel
-  revision = var.httprequest_lego.revision
-  config   = var.httprequest_lego.config
+  source   = "git::https://github.com/canonical/platform-engineering-staging-deployments//modules?depth=1&ref=feat/1st_iteration"
+  app_name = var.lego.app_name
+  channel  = var.lego.channel
+  revision = var.lego.revision
+  config   = var.lego.config
 }
 
 resource "juju_integration" "motd_traefik" {
@@ -55,7 +56,7 @@ resource "juju_integration" "traefik_certs" {
   }
 
   application {
-    name     = module.httprequest_lego.app_name
-    endpoint = module.httprequest_lego.endpoints.certificates
+    name     = module.lego.app_name
+    endpoint = module.lego.endpoints.certificates
   }
 }

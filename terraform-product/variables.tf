@@ -19,13 +19,13 @@ variable "ubuntu_motd_server" {
 
 }
 
-variable "httprequest_lego" {
+variable "lego" {
   type = object({
-    app_name    = optional(string, "httprequest-lego-k8s")
-    channel     = optional(string, "latest/stable")
+    app_name    = optional(string, "lego")
+    channel     = optional(string, "4/stable")
     config      = optional(map(string), {})
     constraints = optional(string, "arch=amd64")
-    revision    = optional(number, 99)
+    revision    = optional(number, 61)
     base        = optional(string, "ubuntu@22.04")
     units       = optional(number, 1)
   })
