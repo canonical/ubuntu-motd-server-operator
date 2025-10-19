@@ -24,6 +24,7 @@ module "traefik_k8s" {
   units       = var.traefik_k8s.units
 }
 
+/*
 module "lego" {
   model    = var.model
   source   = "git::ssh://git@github.com/canonical/platform-engineering-staging-deployments//modules/lego?depth=1&ref=feat/1st_iteration"
@@ -32,6 +33,7 @@ module "lego" {
   revision = var.lego.revision
   config   = var.lego.config
 }
+*/
 
 resource "juju_integration" "motd_traefik" {
   model = var.model
@@ -56,7 +58,7 @@ resource "juju_integration" "traefik_certs" {
   }
 
   application {
-    name     = module.lego.app_name
-    endpoint = module.lego.endpoints.certificates
+    name     = var.certificate_provider_name
+    endpoint = "certificates
   }
 }
