@@ -59,6 +59,6 @@ resource "juju_integration" "traefik_certs" {
 
   application {
     name     = var.certificate_provider_name
-    endpoint = "certificates
+    endpoint = "certificates"
   }
 }
