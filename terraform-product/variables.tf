@@ -19,6 +19,7 @@ variable "ubuntu_motd_server" {
 
 }
 
+/*
 variable "lego" {
   type = object({
     app_name    = optional(string, "lego")
@@ -30,6 +31,7 @@ variable "lego" {
     units       = optional(number, 1)
   })
 }
+*/
 
 variable "traefik_k8s" {
   type = object({
