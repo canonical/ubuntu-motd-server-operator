@@ -14,7 +14,7 @@ output "endpoints" {
 
 output "requires" {
   value = {
-    ingress    = "ingress"
-    logging    = "logging"
+    ingress = "ingress"
+    logging = "logging"
   }
 }
