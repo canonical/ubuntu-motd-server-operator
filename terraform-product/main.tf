@@ -14,7 +14,7 @@ module "ubuntu_motd_server" {
 }
 
 module "traefik_k8s" {
-  source      = "git::ssh://git@github.com/canonical/traefik-k8s-operator//terraform?depth=1"
+  source      = "git::ssh://git@github.com/canonical/traefik-k8s-operator//terraform?depth=1&ref=rev254"
   app_name    = var.traefik_k8s.app_name
   channel     = var.traefik_k8s.channel
   config      = var.traefik_k8s.config
