@@ -6,9 +6,15 @@ output "app_name" {
   value       = module.ubuntu_motd_server.app_name
 }
 
+output "certificates_requirer" {
+  description = "Name of the application requiring certificates."
+  value       = module.traefik_k8s.app_name
+}
+
 output "requires" {
   value = {
-    logging = "logging"
+    logging      = "logging"
+    certificates = "certificates"
   }
 }
 

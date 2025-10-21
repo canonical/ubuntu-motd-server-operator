@@ -37,17 +37,3 @@ resource "juju_integration" "motd_traefik" {
     endpoint = module.traefik_k8s.endpoints.ingress
   }
 }
-
-resource "juju_integration" "traefik_certs" {
-  model = var.model
-
-  application {
-    name     = module.traefik_k8s.app_name
-    endpoint = module.traefik_k8s.endpoints.certificates
-  }
-
-  application {
-    name     = var.certificate_provider_name
-    endpoint = "certificates"
-  }
-}
