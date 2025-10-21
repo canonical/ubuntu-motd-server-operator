@@ -24,20 +24,6 @@ variable "ubuntu_motd_server" {
 
 }
 
-/*
-variable "lego" {
-  type = object({
-    app_name    = optional(string, "lego")
-    channel     = optional(string, "4/stable")
-    config      = optional(map(string), {})
-    constraints = optional(string, "arch=amd64")
-    revision    = optional(number, 61)
-    base        = optional(string, "ubuntu@22.04")
-    units       = optional(number, 1)
-  })
-}
-*/
-
 variable "traefik_k8s" {
   type = object({
     app_name    = optional(string, "traefik-k8s")
