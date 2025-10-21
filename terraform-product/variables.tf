@@ -6,11 +6,6 @@ variable "model" {
   type        = string
 }
 
-variable "certificate_provider_name" {
-  description = "Name of the certificate provider application."
-  type        = string
-}
-
 variable "ubuntu_motd_server" {
   type = object({
     app_name    = optional(string, "motd-server")
