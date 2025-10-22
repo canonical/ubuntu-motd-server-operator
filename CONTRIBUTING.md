@@ -1,5 +1,3 @@
-<!-- Remember to update this file for your charm -- replace `ubuntu-motd-server` with the appropriate name. -->
-
 # Contributing
 
 This document explains the processes and practices recommended for contributing enhancements to the `ubuntu-motd-server` charm.
@@ -139,7 +137,7 @@ that can be used for linting and formatting code when you're preparing contribut
 ### Build the rock and charm
 
 Use [Rockcraft](https://documentation.ubuntu.com/rockcraft/stable/) to create an
-OCI image for the `ubuntu-motd-server` app, and then upload the image to a MicroK8s registry,
+OCI image for the `motd-server` app, and then upload the image to a MicroK8s registry,
 which stores OCI archives so they can be downloaded and deployed.
 
 Enable the MicroK8s registry:
@@ -171,5 +169,5 @@ juju add-model charm-dev
 # Enable DEBUG logging
 juju model-config logging-config="<root>=INFO;unit=DEBUG"
 # Deploy the charm
-juju deploy ./`ubuntu-motd-server`.charm 
+juju deploy ./ubuntu-motd-server_ubuntu-22.04-amd64.charm
 ```
