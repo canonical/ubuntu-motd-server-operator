@@ -1,4 +1,4 @@
-# Getting started
+# Deploy the Ubuntu MOTD server charm
 
 ## What you’ll do
 
@@ -13,7 +13,7 @@
 
 For more information about how to install Juju, see [Get started with Juju](https://documentation.ubuntu.com/juju/3.6/tutorial/).
 
-## Setting up a tutorial model
+## Set up a tutorial model
 
 To manage resources effectively and to separate this tutorial's workload from
 your usual work, we recommend creating a new model using the following command.
@@ -30,17 +30,20 @@ Deploy the `ubuntu-motd-server` charm.
 juju deploy ubuntu-motd-server --channel latest/stable
 ```
 
-Once the deployment is completed, you should see something like:
+Check the status of the deployment with `juju status`. Once the deployment is completed, you should see something like:
 
 ```shell
 App                 Version  Status  Scale  Charm               Channel      Rev  Address         Exposed  Message
 ubuntu-motd-server           active      1  ubuntu-motd-server  latest/stable    5  10.152.183.193  no  
 ```
 
-You should be able to reach the service on port 8000 of the previous address. As no `files` are configured yet, it will return a 404 error.
-
+You should be able to reach the service on port 8000 of the previous address using:
 ```shell
 curl http://10.152.183.193:8000 -D -
+```
+As no `files` are configured yet, it will return a 404 error:
+
+```shell
 HTTP/1.1 404 NOT FOUND
 ```
 
@@ -66,14 +69,15 @@ You can now retrieve the default MOTD:
 
 ```shell
 curl 10.152.183.193:8000 
-default index
 ```
+If successful, the terminal will output `default index`.
 
-And you can test that it serves a cloud specific MOTD when requests:
+And you can test that the charm serves a cloud specific MOTD when requests:
 
 ```shell
 curl 10.152.183.193:8000 -D - -H "User-Agent: Ubuntu/22.04"
-22.04 index
 ```
+
+If successful, the terminal will output `22.04 index`.
 
 Congratulations, you configured and test the MOTD server.

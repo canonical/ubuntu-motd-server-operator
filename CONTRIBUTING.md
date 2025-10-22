@@ -111,7 +111,7 @@ To make contributions to this charm, you'll need a working
 The code for this charm can be downloaded as follows:
 
 ```
-git clone https://github.com/canonical/`ubuntu-motd-server`
+git clone https://github.com/canonical/ubuntu-motd-server-operator
 ```
 
 You can create an environment for development with `python3-venv`.
