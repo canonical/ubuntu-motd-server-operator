@@ -9,14 +9,13 @@ variable "model" {
 variable "ubuntu_motd_server" {
   type = object({
     app_name    = optional(string, "motd-server")
-    channel     = optional(string, "latest/edge")
+    channel     = optional(string, "latest/stable")
     config      = optional(map(string), {})
     constraints = optional(string, "arch=amd64")
     revision    = optional(number)
     base        = optional(string, "ubuntu@24.04")
     units       = optional(number, 1)
   })
-
 }
 
 variable "traefik_k8s" {
