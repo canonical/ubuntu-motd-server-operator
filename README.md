@@ -10,13 +10,13 @@ For information about how to deploy, integrate, and manage this charm, see the O
 
 ## Get started
 
-To begin, refer to the [Getting started](docs/tutorial/getting-start.md) tutorial.
+To begin, refer to the [Getting started](docs/tutorial/getting-started.md) tutorial.
 
 ## Integrations
 
 Deployment of `ubuntu-motd-server` requires a certificate provider, common options are [`self-signed-certificates`](https://charmhub.io/self-signed-certificates) and [`lego`](https://charmhub.io/lego).
 
-Refer to the [tutorial](docs/tutorial.md) to see how to integrate with `self-signed-certificates`.
+Refer to the [tutorial](docs/tutorial/getting-started.md) to see how to integrate with `self-signed-certificates`.
 
 ## Learn more
 
