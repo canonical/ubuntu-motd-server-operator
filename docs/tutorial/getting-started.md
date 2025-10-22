@@ -30,7 +30,7 @@ Deploy the `ubuntu-motd-server` charm.
 juju deploy ubuntu-motd-server --channel latest/stable
 ```
 
-Once the deployment is completed, you shoud see something like:
+Once the deployment is completed, you should see something like:
 
 ```shell
 App                 Version  Status  Scale  Charm               Channel      Rev  Address         Exposed  Message
