@@ -11,3 +11,10 @@ output "endpoints" {
     ingress = "ingress"
   }
 }
+
+output "requires" {
+  value = {
+    ingress = "ingress"
+    logging = "logging"
+  }
+}
