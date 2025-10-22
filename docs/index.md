@@ -47,5 +47,6 @@ Thinking about using the `ubuntu-motd-server` Operator for your next project?
   1.1 [Configurations](reference/configurations.md)
   1.2 [Integrations](reference/integrations.md)
 1. [Explanation](explanation)
-  1.1 [Architecture overview](explanation/charm-architecture.md)
+  1.1 [Architecture overview](explanation/architecture-overview.md)
+  1.1 [Charm architecture](explanation/charm-architecture.md)
   1.1 [Security](explanation/security.md)
