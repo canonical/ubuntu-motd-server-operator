@@ -1,4 +1,4 @@
-# `ubuntu-motd-server` Operator
+# `ubuntu-motd-server` operator
 
 A [Juju](https://juju.is/) [charm](https://documentation.ubuntu.com/juju/3.6/reference/charm/) deploying and managing Ubuntu MOTD server on Kubernetes.
 
