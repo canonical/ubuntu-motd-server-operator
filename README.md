@@ -14,9 +14,7 @@ To begin, refer to the [Getting started](docs/tutorial/getting-started.md) tutor
 
 ## Integrations
 
-Deployment of `ubuntu-motd-server` requires a certificate provider, common options are [`self-signed-certificates`](https://charmhub.io/self-signed-certificates) and [`lego`](https://charmhub.io/lego).
-
-Refer to the [tutorial](docs/tutorial/getting-started.md) to see how to integrate with `self-signed-certificates`.
+The `ubuntu-motd-server` charm can be exposed through the `ingress` integration.
 
 ## Learn more
 
