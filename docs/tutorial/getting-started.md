@@ -38,9 +38,11 @@ ubuntu-motd-server           active      1  ubuntu-motd-server  latest/stable   
 ```
 
 You should be able to reach the service on port 8000 of the previous address using:
+
 ```shell
 curl http://10.152.183.193:8000 -D -
 ```
+
 As no `files` are configured yet, it will return a 404 error:
 
 ```shell
@@ -70,6 +72,7 @@ You can now retrieve the default MOTD:
 ```shell
 curl 10.152.183.193:8000 
 ```
+
 If successful, the terminal will output `default index`.
 
 And you can test that the charm serves a cloud specific MOTD when requests:

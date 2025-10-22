@@ -18,7 +18,6 @@ Container_Boundary(imagebuildercharm), "MOTD charm") {
 
 }
 
-
 Rel(lego, traefik, "'certificates' integration")
 Rel(traefik, charm, "'ingress' integration")
 
