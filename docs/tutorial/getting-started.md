@@ -81,3 +81,11 @@ curl 10.152.183.193:8000 -D - -H "User-Agent: Ubuntu/22.04"
 If successful, the terminal will output `22.04 index`.
 
 Congratulations, you configured and test the MOTD server.
+
+### Clean up the environment
+
+To remove the model environment you created during this tutorial, use the following command.
+
+```shell
+juju destroy-model motd-tutorial
+```
