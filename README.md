@@ -10,7 +10,7 @@ For information about how to deploy, integrate, and manage this charm, see the O
 
 ## Get started
 
-To begin, refer to the [Getting started](docs/tutorial.md) tutorial.
+To begin, refer to the [Getting started](docs/tutorial/getting-start.md) tutorial.
 
 ## Integrations
 
