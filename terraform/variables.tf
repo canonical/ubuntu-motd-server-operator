@@ -20,7 +20,7 @@ variable "channel" {
 }
 
 variable "config" {
-  description = "Application config. Details about available options can be found at https://charmhub.io/<charm-name>/configurations."
+  description = "Application config. Details about available options can be found at https://charmhub.io/ubuntu-motd-server/configurations."
   type        = map(string)
   default     = {}
 }
