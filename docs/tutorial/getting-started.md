@@ -7,7 +7,7 @@
 
 ## Requirements
 
-- Juju 3.x installed.
+- Juju 3.6 or higher installed.
 - Juju controller that can create a model of type Kubernetes.
 - Configuration compatible with the traefik-k8s charm. In the case of MicroK8s this can be achieved with the `metallb` add-on.
 
