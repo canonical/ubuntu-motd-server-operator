@@ -1,0 +1,90 @@
+[32mINFO    [0m jubilant:_juju.py:313 cli: juju deploy --model testing ./ubuntu-motd-server_ubuntu-22.04-amd64.charm --config files=@tests/integration/charm-files.yaml --resource flask-app-image=ghcr.io/canonical/motd-server-app:e9b40b2b3ab8b523f6eff033f2df7abf5b01dadd-_0.15_amd64
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
++ .model.name = 'testing'
++ .model.type = 'caas'
++ .model.controller = 'github-pr-70c8b-k8s'
++ .model.cloud = 'k8s'
++ .model.version = '3.6.11'
++ .model.model_status.current = 'available'
++ .apps['ubuntu-motd-server'].charm = 'local:ubuntu-motd-server-0'
++ .apps['ubuntu-motd-server'].charm_origin = 'local'
++ .apps['ubuntu-motd-server'].charm_name = 'ubuntu-motd-server'
++ .apps['ubuntu-motd-server'].charm_rev = 0
++ .apps['ubuntu-motd-server'].exposed = False
++ .apps['ubuntu-motd-server'].base.name = 'ubuntu'
++ .apps['ubuntu-motd-server'].base.channel = '22.04'
++ .apps['ubuntu-motd-server'].scale = 1
++ .apps['ubuntu-motd-server'].app_status.current = 'waiting'
++ .apps['ubuntu-motd-server'].app_status.message = 'installing agent'
++ .apps['ubuntu-motd-server'].relations['secret-storage'][0].related_app = 'ubuntu-motd-server'
++ .apps['ubuntu-motd-server'].relations['secret-storage'][0].interface = 'secret-storage'
++ .apps['ubuntu-motd-server'].relations['secret-storage'][0].scope = 'global'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.current = 'waiting'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.message = 'installing agent'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.current = 'allocating'
++ .apps['ubuntu-motd-server'].endpoint_bindings[''] = 'alpha'
++ .apps['ubuntu-motd-server'].endpoint_bindings['grafana-dashboard'] = 'alpha'
++ .apps['ubuntu-motd-server'].endpoint_bindings['ingress'] = 'alpha'
++ .apps['ubuntu-motd-server'].endpoint_bindings['logging'] = 'alpha'
++ .apps['ubuntu-motd-server'].endpoint_bindings['metrics-endpoint'] = 'alpha'
++ .apps['ubuntu-motd-server'].endpoint_bindings['secret-storage'] = 'alpha'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
++ .apps['ubuntu-motd-server'].provider_id = '8ee6d496-b53a-41bb-bbae-38b085d4047c'
++ .apps['ubuntu-motd-server'].address = '10.152.183.49'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].provider_id = 'ubuntu-motd-server-0'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].address = '10.1.0.62'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
+- .apps['ubuntu-motd-server'].app_status.message = 'installing agent'
++ .apps['ubuntu-motd-server'].app_status.message = 'agent initialising'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.message = 'installing agent'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.message = 'agent initialising'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.version = '3.6.11'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].leader = True
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
+- .apps['ubuntu-motd-server'].app_status.current = 'waiting'
+- .apps['ubuntu-motd-server'].app_status.message = 'agent initialising'
++ .apps['ubuntu-motd-server'].app_status.current = 'maintenance'
++ .apps['ubuntu-motd-server'].app_status.message = 'installing charm software'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.current = 'waiting'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.message = 'agent initialising'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.current = 'allocating'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.current = 'maintenance'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.message = 'installing charm software'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.current = 'executing'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.message = 'running install hook'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.message = 'running install hook'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.message = 'running leader-elected hook'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
+- .apps['ubuntu-motd-server'].app_status.message = 'installing charm software'
++ .apps['ubuntu-motd-server'].app_status.message = 'Preparing service for restart'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.message = 'installing charm software'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.current = 'executing'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.message = 'running leader-elected hook'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.message = 'Preparing service for restart'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.current = 'idle'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
+- .apps['ubuntu-motd-server'].app_status.current = 'maintenance'
+- .apps['ubuntu-motd-server'].app_status.message = 'Preparing service for restart'
++ .apps['ubuntu-motd-server'].app_status.current = 'active'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.current = 'maintenance'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.message = 'Preparing service for restart'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].workload_status.current = 'active'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
+- .apps['ubuntu-motd-server'].app_status.current = 'active'
++ .apps['ubuntu-motd-server'].app_status.current = 'waiting'
++ .apps['ubuntu-motd-server'].app_status.message = 'installing agent'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.current = 'idle'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.current = 'executing'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.message = 'running secret-storage-relation-changed hook'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.current = 'executing'
+- .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.message = 'running secret-storage-relation-changed hook'
++ .apps['ubuntu-motd-server'].units['ubuntu-motd-server/0'].juju_status.current = 'idle'
+[32mINFO    [0m jubilant.wait:_juju.py:1254 wait: status changed:
+- .apps['ubuntu-motd-server'].app_status.current = 'waiting'
+- .apps['ubuntu-motd-server'].app_status.message = 'installing agent'
++ .apps['ubuntu-motd-server'].app_status.current = 'active'
+[32mINFO    [0m jubilant:_juju.py:313 cli: juju status --model testing --format json
