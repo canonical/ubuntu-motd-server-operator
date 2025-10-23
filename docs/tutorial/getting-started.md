@@ -9,7 +9,7 @@
 
 - Juju 3.x installed.
 - Juju controller that can create a model of type Kubernetes.
-- Configuration compatible with the traefik-k8s charms. In the case of MicroK8s this can be achieved with the `metallb` add-on.
+- Configuration compatible with the traefik-k8s charm. In the case of MicroK8s this can be achieved with the `metallb` add-on.
 
 For more information about how to install Juju, see [Get started with Juju](https://documentation.ubuntu.com/juju/3.6/tutorial/).
 
@@ -51,7 +51,7 @@ HTTP/1.1 404 NOT FOUND
 
 ### Configure
 
-The easiest way to define the content of the MOTD server is to populate a file with the configuration. Create the following `content.yaml` file:
+To define the content of the MOTD server, let's populate a file with the configuration. Create the following `content.yaml` file:
 
 ```yaml
 index.txt: |
@@ -75,7 +75,7 @@ curl 10.152.183.193:8000
 
 If successful, the terminal will output `default index`.
 
-And you can test that the charm serves a cloud specific MOTD when requests:
+And you can test that the charm serves a cloud-specific MOTD when requested:
 
 ```shell
 curl 10.152.183.193:8000 -D - -H "User-Agent: Ubuntu/22.04"
@@ -83,7 +83,7 @@ curl 10.152.183.193:8000 -D - -H "User-Agent: Ubuntu/22.04"
 
 If successful, the terminal will output `22.04 index`.
 
-Congratulations, you configured and test the MOTD server.
+Congratulations, you configured and tested the MOTD server.
 
 ### Clean up the environment
 

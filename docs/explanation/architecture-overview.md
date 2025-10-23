@@ -1,6 +1,6 @@
 # Architecture overview
 
-A typical deployment of the `ubuntu-motd-server` charm will involve and `ingress` provider and a `certificate` provider to expose the service over HTTPS.
+A typical deployment of the `ubuntu-motd-server` charm involves an `ingress` provider and a `certificate` provider to expose the service over HTTPS.
 
 You can see an example in the following diagram:
 
@@ -18,8 +18,8 @@ Container_Boundary(imagebuildercharm), "MOTD charm") {
 
 }
 
-Rel(lego, traefik, "'certificates' integration")
-Rel(traefik, charm, "'ingress' integration")
+Rel(lego, traefik, "'certificates' relation")
+Rel(traefik, charm, "'ingress' relation")
 
 UpdateLayoutConfig($c4ShapeInRow="1", $c4BoundaryInRow="1")
 

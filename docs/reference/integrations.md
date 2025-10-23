@@ -1,3 +1,3 @@
 # Integrations
 
-See [Integrations](https://charmhub.io/ubuntu-motd-server/integrations)
+See [Integrations](https://charmhub.io/ubuntu-motd-server/integrations).
