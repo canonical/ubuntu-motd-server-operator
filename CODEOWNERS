@@ -1,6 +1,5 @@
-docs/*	@erinecon
+docs/* @erinecon
 
 # Ignore changelog from codeowner requests
-docs/changelog.md 
 
-# Add relevant CODEOWNERS here
+docs/changelog.md

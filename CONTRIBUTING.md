@@ -1,8 +1,6 @@
-<!-- Remember to update this file for your charm -- replace <charm-name> with the appropriate name. -->
-
 # Contributing
 
-This document explains the processes and practices recommended for contributing enhancements to the <charm-name> charm.
+This document explains the processes and practices recommended for contributing enhancements to the `ubuntu-motd-server` charm.
 
 ## Overview
 
@@ -90,7 +88,7 @@ we use the [Canonical contributor license agreement](https://assets.ubuntu.com/v
 
 #### Canonical contributor agreement
 
-Canonical welcomes contributions to the <charm-name> charm. Please check out our
+Canonical welcomes contributions to the `ubuntu-motd-server` charm. Please check out our
 [contributor agreement](https://ubuntu.com/legal/contributors) if you're interested in contributing to the solution.
 
 The CLA sign-off is simple line at the
@@ -111,7 +109,7 @@ To make contributions to this charm, you'll need a working
 The code for this charm can be downloaded as follows:
 
 ```
-git clone https://github.com/canonical/<charm-name>
+git clone https://github.com/canonical/ubuntu-motd-server-operator
 ```
 
 You can create an environment for development with `python3-venv`.
@@ -129,17 +127,17 @@ pip install tox
 This project uses `tox` for managing test environments. There are some pre-configured environments
 that can be used for linting and formatting code when you're preparing contributions to the charm:
 
-* ``tox``: Executes all of the basic checks and tests (``lint``, ``unit``, ``static``, and ``coverage-report``).
-* ``tox -e fmt``: Runs formatting using ``black`` and ``isort``.
-* ``tox -e lint``: Runs a range of static code analysis to check the code.
-* ``tox -e static``: Runs other checks such as ``bandit`` for security issues.
-* ``tox -e unit``: Runs the unit tests.
-* ``tox -e integration``: Runs the integration tests.
+- ``tox``: Executes all of the basic checks and tests (``lint``, ``unit``, ``static``, and ``coverage-report``).
+- ``tox -e fmt``: Runs formatting using ``black`` and ``isort``.
+- ``tox -e lint``: Runs a range of static code analysis to check the code.
+- ``tox -e static``: Runs other checks such as ``bandit`` for security issues.
+- ``tox -e unit``: Runs the unit tests.
+- ``tox -e integration``: Runs the integration tests.
 
 ### Build the rock and charm
 
 Use [Rockcraft](https://documentation.ubuntu.com/rockcraft/stable/) to create an
-OCI image for the <charm-name> app, and then upload the image to a MicroK8s registry,
+OCI image for the `motd-server` app, and then upload the image to a MicroK8s registry,
 which stores OCI archives so they can be downloaded and deployed.
 
 Enable the MicroK8s registry:
@@ -171,7 +169,5 @@ juju add-model charm-dev
 # Enable DEBUG logging
 juju model-config logging-config="<root>=INFO;unit=DEBUG"
 # Deploy the charm
-juju deploy ./<charm-name>.charm 
+juju deploy ./ubuntu-motd-server_ubuntu-22.04-amd64.charm
 ```
-
-
