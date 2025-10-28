@@ -1,5 +1,6 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
+# Trigger test 1
 
 resource "juju_application" "ubuntu_motd_server" {
   name  = var.app_name
