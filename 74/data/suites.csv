@@ -1,0 +1,16 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+    arrange: Deploy the motd-server-app charm.
+    act: Get a non existing page.
+    assert: The _health endpoint returns 404
+    ","1","test_404","tests.integration","2025-11-20","passed","2025-11-20","","test_charm","",""
+"
+    arrange: Deploy the motd-server-app charm.
+    act: Get / with a specific user agent
+    assert: The server returns the expected MOTD content.
+    ","50","test_specific_motds","tests.integration","2025-11-20","passed","2025-11-20","","test_charm","",""
+"
+    arrange: Deploy the motd-server-app charm.
+    act: Get the _health endpoint.
+    assert: The _health endpoint returns 200 OK.
+    ","4","test_health","tests.integration","2025-11-20","passed","2025-11-20","","test_charm","",""
