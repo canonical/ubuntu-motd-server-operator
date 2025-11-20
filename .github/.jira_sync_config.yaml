@@ -9,8 +9,9 @@ settings:
     
   add_gh_comment: true
   
-  epic_key: ISD-3981
-      
+  components:
+    - Ubuntu MOTD
+
   label_mapping:
     bug: Bug
     enhancement: Story
