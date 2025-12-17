@@ -13,7 +13,7 @@ For information about how to deploy, integrate, and manage this charm, see the O
 | | |
 |--|--|
 |  [Tutorials](tutorial/getting-started.md)</br>  Get started - a hands-on introduction to using the charm for new users </br> |  [How-to guides](link to how-to guide) </br> Step-by-step guides covering key operations and common tasks |
-| [Reference](reference/integrations.md) </br> Technical information - specifications, APIs, architecture | [Explanation](explanation/charm-architecture.md) </br> Concepts - discussion and clarification of key topics  |
+| [Reference](reference/integrations.md) </br> Technical information - specifications, APIs, architecture | [Explanation](reference/charm-architecture.md) </br> Concepts - discussion and clarification of key topics  |
 
 ## Contributing to this documentation
 
@@ -45,8 +45,8 @@ Thinking about using the `ubuntu-motd-server` Operator for your next project?
   1.1 [Contribute](how-to/contribute.md)
 1. [Reference](reference)
   1.1 [Configurations](reference/configurations.md)
+  1.1 [Charm architecture](reference/charm-architecture.md)
   1.2 [Integrations](reference/integrations.md)
 1. [Explanation](explanation)
   1.1 [Architecture overview](explanation/architecture-overview.md)
-  1.1 [Charm architecture](explanation/charm-architecture.md)
   1.1 [Security](explanation/security.md)
