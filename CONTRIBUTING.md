@@ -103,23 +103,121 @@ To add signatures on your commits, follow the
 
 ## Develop
 
-To make contributions to this charm, you'll need a working
-[development setup](https://documentation.ubuntu.com/juju/latest/user/howto/manage-your-deployment/manage-your-deployment-environment/).
+### Development setup
 
-The code for this charm can be downloaded as follows:
+To make contributions to this charm, you'll need a working development setup.
+We recommend using `multipass` to have a dedicated and isolated environment.
 
+Create your virtual machine with:
+
+```shell
+multipass launch 22.04 \
+  --name motd-vm \
+  --cpus 4 \
+  --memory 8G \
+  --disk 50G \
+  --timeout 1800
 ```
-git clone https://github.com/canonical/ubuntu-motd-server-operator
+
+Connect to your virtual machine, and install [`concierge`](https://github.com/canonical/concierge) to ease the deployment of the required components:
+
+```shell
+multipass shell motd-vm
+sudo snap install --classic concierge
 ```
 
-You can create an environment for development with `python3-venv`.
-We will also install `tox` inside the virtual environment for testing:
+Install the development requirements:
 
-```bash
+```shell
+sudo concierge prepare -p k8s
+```
+
+Once completed, you should be able to run `juju status` and see something like:
+
+```text
+Model    Controller     Cloud/Region  Version  SLA          Timestamp
+testing  concierge-k8s  k8s           3.6.13   unsupported  14:48:06+01:00
+
+Model "admin/testing" is empty.
+```
+
+As we will need a container registry, we need to deploy one using the following command:
+
+```shell
+cat << EOF | kubectl apply -f -
+> ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: private-registry
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: private-registry
+  template:
+    metadata:
+      labels:
+        app: private-registry
+    spec:
+      containers:
+        - name: registry
+          image: registry:2
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: registry-storage
+              mountPath: /var/lib/registry
+      volumes:
+        - name: registry-storage
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: private-registry
+  namespace: default
+spec:
+  selector:
+    app: private-registry
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+EOF
+```
+
+And we need to allow plain HTTP access to it with the following:
+
+```shell
+REGISTRY_IP=$(kubectl get svc private-registry -o jsonpath='{.spec.clusterIP}')
+sudo mkdir -p /etc/containerd/hosts.d/${REGISTRY_IP}$:5000
+sudo cat << EOF | sudo tee /etc/containerd/hosts.d/${REGISTRY_IP}:5000/hosts.toml
+server = "http://${REGISTRY_IP}:5000"
+
+[host."http://${REGISTRY_IP}:5000"]
+  capabilities = ["pull", "resolve"]
+  skip_verify = true
+EOF
+```
+
+The final steps is to install `tox` with:
+
+```shell
 sudo apt install python3-venv
 python3 -m venv venv
 source venv/bin/activate
 pip install tox
+``````
+
+### Retrieve the sources
+
+The code for this charm can be downloaded as follows:
+
+```shell
+git clone https://github.com/canonical/ubuntu-motd-server-operator
 ```
 
 ### Test
@@ -132,27 +230,16 @@ that can be used for linting and formatting code when you're preparing contribut
 - ``tox -e lint``: Runs a range of static code analysis to check the code.
 - ``tox -e static``: Runs other checks such as ``bandit`` for security issues.
 - ``tox -e unit``: Runs the unit tests.
-- ``tox -e integration``: Runs the integration tests.
+- ``tox -e integration``: Runs the integration tests. Note: these tests require the rock and charm to be built first, see next sections.
 
 ### Build the rock and charm
 
 Use [Rockcraft](https://documentation.ubuntu.com/rockcraft/stable/) to create an
-OCI image for the `motd-server` app, and then upload the image to a MicroK8s registry,
-which stores OCI archives so they can be downloaded and deployed.
+OCI image for the `motd-server` app.
 
-Enable the MicroK8s registry:
-
-```bash
-microk8s enable registry
-```
-
-The following commands pack the OCI image and push it into
-the MicroK8s registry:
-
-```bash
-cd <project_dir>
+```shell
+cd motd-server-app
 rockcraft pack
-skopeo --insecure-policy copy --dest-tls-verify=false oci-archive:<rock-name>.rock docker://localhost:32000/<app-name>:latest
 ```
 
 Build the charm in this git repository using:
@@ -163,11 +250,19 @@ charmcraft pack
 
 ### Deploy
 
+Push the rock to the registry:
+
+```bash
+REGISTRY_IP=$(kubectl get svc private-registry -o jsonpath='{.spec.clusterIP}')
+APP_VERSION=0.15
+skopeo --insecure-policy copy --dest-tls-verify=false oci-archive:motd-server-app/motd-server-app_${APP_VERSION}_amd64.rock docker://${REGISTRY_IP}:5000/motd-server-app:latest
+```
+
 ```bash
 # Create a model
 juju add-model charm-dev
 # Enable DEBUG logging
 juju model-config logging-config="<root>=INFO;unit=DEBUG"
 # Deploy the charm
-juju deploy ./ubuntu-motd-server_ubuntu-22.04-amd64.charm
+juju deploy ./ubuntu-motd-server_ubuntu-22.04-amd64.charm --resource flask-app-image=${REGISTRY_IP}:5000/motd-server-app:latest
 ```
