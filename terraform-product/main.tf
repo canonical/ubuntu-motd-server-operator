@@ -6,26 +6,26 @@ module "ubuntu_motd_server" {
   app_name    = var.ubuntu_motd_server.app_name
   channel     = var.ubuntu_motd_server.channel
   config      = var.ubuntu_motd_server.config
-  model       = var.model
+  model_uuid  = var.model_uuid
   constraints = var.ubuntu_motd_server.constraints
   revision    = var.ubuntu_motd_server.revision
   base        = var.ubuntu_motd_server.base
   units       = var.ubuntu_motd_server.units
 }
 
-module "traefik_k8s" {
-  source      = "git::ssh://git@github.com/canonical/traefik-k8s-operator//terraform?depth=1&ref=rev254"
-  app_name    = var.traefik_k8s.app_name
-  channel     = var.traefik_k8s.channel
-  config      = var.traefik_k8s.config
-  constraints = var.traefik_k8s.constraints
-  model       = var.model
-  revision    = var.traefik_k8s.revision
-  units       = var.traefik_k8s.units
+module "gateway_api" {
+  source      = "git::ssh://git@github.com/canonical/gateway-api-integrator-operator//terraform/product?depth=1&ref=gateway-route-rev3"
+  app_name    = var.gateway_api.app_name
+  channel     = var.gateway_api.channel
+  config      = var.gateway_api.config
+  constraints = var.gateway_api.constraints
+  model_uuid  = var.model_uuid
+  revision    = var.gateway_api.revision
+  units       = var.gateway_api.units
 }
 
 resource "juju_integration" "motd_traefik" {
-  model = var.model
+  model_uuid = var.model_uuid
 
   application {
     name     = module.ubuntu_motd_server.app_name
@@ -33,7 +33,7 @@ resource "juju_integration" "motd_traefik" {
   }
 
   application {
-    name     = module.traefik_k8s.app_name
-    endpoint = module.traefik_k8s.endpoints.ingress
+    name     = module.gateway_api.app_name
+    endpoint = module.gateway_api.endpoints.ingress
   }
 }

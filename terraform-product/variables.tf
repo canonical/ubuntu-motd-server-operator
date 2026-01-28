@@ -1,7 +1,7 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
-variable "model" {
+variable "model_uuid" {
   description = "Reference to the k8s Juju model to deploy application to."
   type        = string
 }
@@ -18,7 +18,7 @@ variable "ubuntu_motd_server" {
   })
 }
 
-variable "traefik_k8s" {
+variable "gateway_api" {
   type = object({
     app_name    = optional(string, "traefik-k8s")
     channel     = optional(string, "latest/stable")
