@@ -25,11 +25,7 @@ jobs:
     - name: Prepare juju tf provider environment
       run: |
         go install github.com/canonical/concierge@latest
-        pwd
-        echo $HOME
-        ls $HOME/go
-        ls $HOME/go/bin
-        sudo /home/ubuntu/go/bin/concierge prepare -p k8s
+        sudo /home/runner/go/bin/concierge prepare -p k8s
     - uses: hashicorp/setup-terraform@v3.1.2
     - run: echo "Testing ${{ matrix.working_dir }}"
     - run: terraform init
