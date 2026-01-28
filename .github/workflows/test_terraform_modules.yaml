@@ -22,27 +22,10 @@ jobs:
         working_dir: ["terraform/tests", "terraform-product/tests"]
     steps:
     - uses: actions/checkout@v6.0.2
-    - uses: charmed-kubernetes/actions-operator@main
-      with:
-        provider: "k8s"
-        use-canonical-k8s: true
-        channel: 1.33-classic/stable
-        juju-channel: 3.6/stable
     - name: Prepare juju tf provider environment
       run: |
-        CONTROLLER=$(juju whoami | yq .Controller)
-        JUJU_CONTROLLER_ADDRESSES="$(juju show-controller | yq '.[$CONTROLLER]'.details.\"api-endpoints\" | tr -d "[]' "|tr -d '"'|tr -d '\n')"
-        JUJU_USERNAME="$(cat ~/.local/share/juju/accounts.yaml | yq .controllers.$CONTROLLER.user|tr -d '"')"
-        JUJU_PASSWORD="$(cat ~/.local/share/juju/accounts.yaml | yq .controllers.$CONTROLLER.password|tr -d '"')"
-
-        echo "JUJU_CONTROLLER_ADDRESSES=$JUJU_CONTROLLER_ADDRESSES" >> "$GITHUB_ENV"
-        echo "JUJU_USERNAME=$JUJU_USERNAME" >> "$GITHUB_ENV"
-        echo "JUJU_PASSWORD=$JUJU_PASSWORD" >> "$GITHUB_ENV"
-        {
-          echo 'JUJU_CA_CERT<<EOF'
-          juju show-controller $(echo $CONTROLLER|tr -d '"') | yq '.[$CONTROLLER]'.details.\"ca-cert\"|tr -d '"'
-          echo EOF
-        } >> "$GITHUB_ENV"
+        sudo snap install --classic concierge
+        sudo concierge prepare -p k8s
     - uses: hashicorp/setup-terraform@v3.1.2
     - run: echo "Testing ${{ matrix.working_dir }}"
     - run: terraform init
