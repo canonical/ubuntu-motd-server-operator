@@ -21,7 +21,7 @@ jobs:
       matrix:
         working_dir: ["terraform/tests", "terraform-product/tests"]
     steps:
-    - uses: actions/checkout@v4.2.2
+    - uses: actions/checkout@v6.0.2
     - uses: charmed-kubernetes/actions-operator@main
       with:
         provider: "k8s"
