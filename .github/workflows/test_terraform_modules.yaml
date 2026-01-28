@@ -27,7 +27,7 @@ jobs:
         sudo apt-get remove -y docker-ce docker-ce-cli containerd.io 
         sudo rm -Rf /run/containerd
         sudo snap install concierge --classic
-        concierge prepare -p k8s
+        sudo concierge prepare -p k8s
     - uses: hashicorp/setup-terraform@v3.1.2
     - run: echo "Testing ${{ matrix.working_dir }}"
     - run: terraform init
