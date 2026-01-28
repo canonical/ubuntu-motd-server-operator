@@ -25,7 +25,7 @@ terraform {
 provider "juju" {}
 
 data "juju_model" "testing" {
-  name  = "testing"
+  name  = "tf-testing"
   owner = "admin"
 }
 

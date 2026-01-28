@@ -1,12 +1,6 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
-variable "model_uuid" {
-  description = "The juju model uuid"
-  type        = string
-  default     = "fake_uuid"
-}
-
 variable "channel" {
   description = "The channel to use when deploying a charm."
   type        = string
@@ -17,6 +11,11 @@ variable "revision" {
   description = "Revision number of the charm."
   type        = number
   default     = null
+}
+
+data "juju_model" "testing" {
+  name  = "tf-testing"
+  owner = "admin"
 }
 
 terraform {
@@ -34,6 +33,6 @@ module "charm_name" {
   source     = "./.."
   app_name   = "mymotd"
   channel    = var.channel
-  model_uuid = var.model_uuid
+  model_uuid = data.juju_model.testing.uuid
   revision   = var.revision
 }
