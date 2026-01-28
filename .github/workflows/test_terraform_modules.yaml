@@ -3,7 +3,7 @@
 
 # Attention: valid for K8s charms only
 
-name: Terraform module tests
+name: Terraform modules tests
 
 on:
   pull_request:
@@ -17,8 +17,9 @@ jobs:
   test-terraform:
     name: Test Terraform with Juju
     runs-on: ubuntu-latest
-    env:
-      WORKING_DIR: 'terraform/tests'
+    strategy:
+      matrix:
+        working_dir: ["terraform/tests", "terraform-product/tests"]
     steps:
     - uses: actions/checkout@v4.2.2
     - uses: charmed-kubernetes/actions-operator@main
@@ -43,14 +44,15 @@ jobs:
           echo EOF
         } >> "$GITHUB_ENV"
     - uses: hashicorp/setup-terraform@v3.1.2
+    - run: echo "Testing ${{ matrix.working_dir }}"
     - run: terraform init
-      working-directory: ${{env.WORKING_DIR}}
+      working-directory: ${{ matrix.working_dir }}
     - run: terraform plan -out=tfplan
-      working-directory: ${{env.WORKING_DIR}}
+      working-directory: ${{ matrix.working_dir }}
     - run: terraform show tfplan
-      working-directory: ${{env.WORKING_DIR}}
+      working-directory: ${{ matrix.working_dir }}
     - run: |
         juju add-model tf-testing
         set -e  # Exit on error
         terraform test || { echo "Terraform test failed"; exit 1; }
-      working-directory: ${{env.WORKING_DIR}}
+      working-directory: ${{ matrix.working_dir }}

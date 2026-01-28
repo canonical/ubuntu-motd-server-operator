@@ -8,7 +8,7 @@ output "app_name" {
 
 output "certificates_requirer" {
   description = "Name of the application requiring certificates."
-  value       = module.traefik_k8s.app_name
+  value       = module.gateway_api.gateway_api_integrator_app_name
 }
 
 output "requires" {
