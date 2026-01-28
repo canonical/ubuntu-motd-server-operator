@@ -14,7 +14,7 @@ module "ubuntu_motd_server" {
 }
 
 module "gateway_api" {
-  source = "https://github.com/canonical/gateway-api-integrator-operator.git//terraform/product?depth=1&ref=gateway-route-rev3"
+  source = "git::https://github.com/canonical/gateway-api-integrator-operator.git//terraform/product?depth=1&ref=gateway-route-rev3"
 
   model_uuid = var.model_uuid
 
