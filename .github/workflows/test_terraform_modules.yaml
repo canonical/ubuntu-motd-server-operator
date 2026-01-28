@@ -24,7 +24,9 @@ jobs:
     - uses: actions/checkout@v6.0.2
     - name: Prepare juju tf provider environment
       run: |
-        go install github.com/canonical/concierge@latest
+        sudo apt remove containerd
+        sudo rm -Rf /run/containerd
+        snap install concierge --classic
         sudo /home/runner/go/bin/concierge prepare -p k8s
     - uses: hashicorp/setup-terraform@v3.1.2
     - run: echo "Testing ${{ matrix.working_dir }}"
