@@ -18,7 +18,7 @@ variable "ubuntu_motd_server" {
   })
 }
 
-variable "gateway_api" {
+variable "gateway_api_integrator" {
   type = object({
     app_name    = optional(string, "gateway_api")
     channel     = optional(string, "latest/stable")

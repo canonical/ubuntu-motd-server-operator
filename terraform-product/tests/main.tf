@@ -40,7 +40,7 @@ module "ubuntu_motd_server" {
     base     = "ubuntu@22.04"
   }
 
-  gateway_api = {
+  gateway_api_integrator = {
     app_name = "gateway-api"
     channel  = "latest/edge"
     revision = 130

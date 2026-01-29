@@ -19,12 +19,12 @@ module "gateway_api" {
   model_uuid = var.model_uuid
 
   gateway_api_integrator = {
-    app_name    = var.gateway_api.app_name
-    channel     = var.gateway_api.channel
-    config      = var.gateway_api.config
-    constraints = var.gateway_api.constraints
-    revision    = var.gateway_api.revision
-    units       = var.gateway_api.units
+    app_name    = var.gateway_api_integrator.app_name
+    channel     = var.gateway_api_integrator.channel
+    config      = var.gateway_api_integrator.config
+    constraints = var.gateway_api_integrator.constraints
+    revision    = var.gateway_api_integrator.revision
+    units       = var.gateway_api_integrator.units
   }
 
   gateway_route_configurator = {
