@@ -4,8 +4,8 @@
 variables {
   channel = "latest/edge"
   # renovate: depName="charm_name"
-  revision = 1
-  model    = "tf-testing"
+  revision   = 1
+  model_uuid = "fake_uuid"
 }
 
 run "basic_deploy" {
