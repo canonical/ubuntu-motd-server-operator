@@ -13,10 +13,15 @@ variable "revision" {
   default     = null
 }
 
+data "juju_model" "testing" {
+  name  = "tf-testing"
+  owner = "admin"
+}
+
 terraform {
   required_providers {
     juju = {
-      version = "~> 0.20.0"
+      version = ">= 1.1.0, <2"
       source  = "juju/juju"
     }
   }
@@ -25,9 +30,9 @@ terraform {
 provider "juju" {}
 
 module "charm_name" {
-  source   = "./.."
-  app_name = "mymotd"
-  channel  = var.channel
-  model    = "tf-testing"
-  revision = var.revision
+  source     = "./.."
+  app_name   = "mymotd"
+  channel    = var.channel
+  model_uuid = data.juju_model.testing.uuid
+  revision   = var.revision
 }
