@@ -34,5 +34,5 @@ module "charm_name" {
   app_name   = "mymotd"
   channel    = var.channel
   model_uuid = data.juju_model.testing.uuid
-  revision   = var.revision
+  revision   : var.revision
 }
