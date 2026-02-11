@@ -14,5 +14,5 @@ jobs:
     uses: canonical/operator-workflows/.github/workflows/terraform_modules_test.yaml@feat/add_terraform_module_tests-ISD-5149
     secrets: inherit
     with:
+      terraform-directories: '["terraform", "terraform-product"]'
       k8s-controller: true
-      lxd-controller: true
