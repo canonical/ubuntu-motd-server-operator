@@ -1,6 +1,7 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
+
 resource "juju_application" "ubuntu_motd_server" {
   name       = var.app_name
   model_uuid = var.model_uuid

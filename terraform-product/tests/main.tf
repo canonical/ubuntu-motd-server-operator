@@ -1,6 +1,7 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
+
 variable "channel" {
   description = "The channel to use when deploying a charm."
   type        = string
@@ -25,7 +26,7 @@ terraform {
 provider "juju" {}
 
 data "juju_model" "testing" {
-  name  = "tf-testing"
+  name  = "tf-testing-k8s"
   owner = "admin"
 }
 
