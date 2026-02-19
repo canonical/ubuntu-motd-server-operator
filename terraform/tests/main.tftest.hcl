@@ -1,16 +1,22 @@
 # Copyright 2025 Canonical Ltd.
 # See LICENSE file for licensing details.
 
-variables {
-  channel = "latest/edge"
-  # renovate: depName="charm_name"
-  revision   = 1
-  model_uuid = "fake_uuid"
+run "setup_tests" {
+  module {
+    source = "./setup"
+  }
 }
 
 run "basic_deploy" {
+  variables {
+    model_uuid = run.setup_tests.model_uuid
+    channel    = "latest/edge"
+    # renovate: depName="ubuntu-motd-server"
+    revision = 1
+  }
+
   assert {
-    condition     = module.charm_name.app_name == "mymotd"
-    error_message = "charm_name app_name did not match expected"
+    condition     = output.app_name == "ubuntu-motd-server"
+    error_message = "ubuntu-motd-server app_name did not match expected"
   }
 }
