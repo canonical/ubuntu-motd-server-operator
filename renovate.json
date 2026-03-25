@@ -34,17 +34,27 @@
     },
     {
       "customType": "regex",
-      "fileMatch": ["\\.tftest\\.hcl$", "\\.tf$"],
-      "matchStrings": ["# renovate: depName=\"(?<packageName>ubuntu-motd-server)\"\\s*\\n\\s*(?<fieldName>[a-zA-Z0-9_]+)\\s*=\\s*(?<currentValue>\\d+)"],
-      "versioningTemplate": "semver-coerced",
-      "datasourceTemplate": "custom.charmhub-22"
+      "datasourceTemplate": "custom.charmhub-22",
+      "fileMatch": [
+        "\\.tftest\\.hcl$",
+        "\\.tf$"
+      ],
+      "matchStrings": [
+        "# renovate: depName=\"(?<packageName>ubuntu-motd-server)\"\\s*\\n\\s*(?<fieldName>[a-zA-Z0-9_]+)\\s*=\\s*(?<currentValue>\\d+)"
+      ],
+      "versioningTemplate": "semver-coerced"
     },
     {
       "customType": "regex",
-      "fileMatch": ["\\.tftest\\.hcl$", "\\.tf$"],
-      "matchStrings": ["# renovate: depName=\"(?<packageName>(?:gateway-api-integrator|gateway-route-configurator))\"\\s*\\n\\s*(?<fieldName>[a-zA-Z0-9_]+)\\s*=\\s*(?<currentValue>\\d+)"],
-      "versioningTemplate": "semver-coerced",
-      "datasourceTemplate": "custom.charmhub"
+      "datasourceTemplate": "custom.charmhub",
+      "fileMatch": [
+        "\\.tftest\\.hcl$",
+        "\\.tf$"
+      ],
+      "matchStrings": [
+        "# renovate: depName=\"(?<packageName>(?:gateway-api-integrator|gateway-route-configurator))\"\\s*\\n\\s*(?<fieldName>[a-zA-Z0-9_]+)\\s*=\\s*(?<currentValue>\\d+)"
+      ],
+      "versioningTemplate": "semver-coerced"
     }
   ],
   "extends": [
@@ -61,12 +71,12 @@
       "pinDigests": true
     },
     {
+      "automerge": true,
+      "enabled": true,
       "matchDatasources": [
         "custom.charmhub",
         "custom.charmhub-22"
-      ],
-      "automerge": true,
-      "enabled": true
+      ]
     },
     {
       "enabled": false,
@@ -79,5 +89,11 @@
         "patch"
       ]
     }
-  ]
+  ],
+  "schedule": [
+    "* * * * 0,6"
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  }
 }
