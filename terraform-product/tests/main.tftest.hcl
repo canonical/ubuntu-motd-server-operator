@@ -14,7 +14,7 @@ run "basic_deploy" {
       app_name = "motd-test"
       channel  = "latest/edge"
       # renovate: depName="ubuntu-motd-server"
-      revision = 29
+      revision = 31
       config   = {}
       base     = "ubuntu@22.04"
     }
@@ -29,7 +29,7 @@ run "basic_deploy" {
       app_name = "gateway-route-configurator"
       channel  = "latest/edge"
       # renovate: depName="gateway-route-configurator"
-      revision = 11
+      revision = 12
       config   = {}
     }
   }
