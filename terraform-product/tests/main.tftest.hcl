@@ -14,7 +14,7 @@ run "basic_deploy" {
       app_name = "motd-test"
       channel  = "latest/edge"
       # renovate: depName="ubuntu-motd-server"
-      revision = 40
+      revision = 42
       config   = {}
       base     = "ubuntu@22.04"
     }

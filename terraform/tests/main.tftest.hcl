@@ -12,7 +12,7 @@ run "basic_deploy" {
     model_uuid = run.setup_tests.model_uuid
     channel    = "latest/edge"
     # renovate: depName="ubuntu-motd-server"
-    revision = 40
+    revision = 42
   }
 
   assert {
