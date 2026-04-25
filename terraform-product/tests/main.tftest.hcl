@@ -22,7 +22,7 @@ run "basic_deploy" {
       app_name = "gateway-api"
       channel  = "latest/edge"
       # renovate: depName="gateway-api-integrator"
-      revision = 151
+      revision = 152
       config   = {}
     }
     gateway_route_configurator = {
