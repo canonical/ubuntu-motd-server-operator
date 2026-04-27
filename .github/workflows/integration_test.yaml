@@ -11,7 +11,6 @@ jobs:
       canonical/operator-workflows/.github/workflows/integration_test.yaml@main
     secrets: inherit
     with:
-      load-test-enabled: false
       trivy-fs-enabled: true
       trivy-image-config: "trivy.yaml"
       self-hosted-runner: true
