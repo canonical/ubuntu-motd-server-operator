@@ -29,7 +29,7 @@ run "basic_deploy" {
       app_name = "gateway-route-configurator"
       channel  = "latest/edge"
       # renovate: depName="gateway-route-configurator"
-      revision = 23
+      revision = 24
       config   = {}
     }
   }
