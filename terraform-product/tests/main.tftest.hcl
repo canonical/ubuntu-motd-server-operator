@@ -39,3 +39,25 @@ run "basic_deploy" {
     error_message = "MOTD app_name did not match expected"
   }
 }
+
+run "invalid_risk" {
+  command = plan
+
+  variables {
+    model_uuid = run.setup_tests.model_uuid
+    risk       = "unstable"
+    ubuntu_motd_server = {
+      channel = "latest/edge"
+    }
+    gateway_api_integrator = {
+      channel = "latest/edge"
+    }
+    gateway_route_configurator = {
+      channel = "latest/edge"
+    }
+  }
+
+  expect_failures = [
+    var.risk,
+  ]
+}
