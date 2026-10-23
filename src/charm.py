@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2026 ali.ugur@canonical.com
+# Copyright 2026 Canonical Ltd.
 # See LICENSE file for licensing details.
 
 """Flask Charm entrypoint."""
