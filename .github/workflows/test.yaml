@@ -7,5 +7,6 @@ jobs:
   unit-tests:
     uses: canonical/operator-workflows/.github/workflows/test.yaml@main
     with:
+      python-version: "3.14"
       with-uv: true
     secrets: inherit
