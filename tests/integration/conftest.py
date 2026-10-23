@@ -94,7 +94,7 @@ def motd_app_fixture(
     Returns:
         Deployed MOTD application.
     """
-    resources = {"flask-app-image": motd_image}
+    resources = {"app-image": motd_image}
 
     if request.config.getoption("--use-existing"):
         return MOTD_APP_NAME

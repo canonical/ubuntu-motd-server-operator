@@ -1,12 +1,17 @@
-# Copyright 2025 Canonical Ltd.
+# Copyright 2026 Canonical Ltd.
 # See LICENSE file for licensing details.
 
 name: motd-server-app
-base: ubuntu@22.04
-version: "0.15"
-summary: Ubuntu MOTD server
+base: bare # as an alternative, an ubuntu base can be used
+build-base: ubuntu@26.04 # build-base is required when the base is bare
+version: "0.1" # just for humans. Semantic versioning is recommended
+summary: A summary of your Flask application # 79 char long summary
 description: |
-  This app serves the Message Of The Day (MOTD) for the Ubuntu servers.
+  This is motd-server-app's description. You have a paragraph or two to tell the
+  most important story about it. Keep it under 100 words though,
+  we live in tweetspace and your description wants to look good in the
+  container registries out there.
+
 platforms:
   amd64:
 
@@ -14,7 +19,7 @@ extensions:
   - flask-framework
 
 parts:
-  flask-framework/install-app:
+  flask-framework.install-app:
     prime:
-      - flask/app/app.py
-      - flask/app/motd_server
+      - app/app.py
+      - app/motd_server
