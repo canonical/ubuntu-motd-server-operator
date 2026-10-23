@@ -24,6 +24,9 @@ lint = [
     "codespell",
     "pyright",
 ]
+static = [
+    "bandit[toml]",
+]
 # Dependencies of unit tests
 unit = [
     "coverage[toml]",
@@ -38,6 +41,11 @@ integration = [
     "PyYAML",
 ]
 
+
+[tool.bandit]
+exclude_dirs = ["/venv/"]
+[tool.bandit.assert_used]
+skips = ["*/*test.py", "*/test_*.py", "*tests/*.py"]
 
 # Testing tools configuration
 [tool.coverage.run]
