@@ -15,6 +15,8 @@ jobs:
       pull-requests: write
     secrets: inherit
     with:
+      with-uv: true
+      python-version: '3.14'
       trivy-fs-enabled: true
       trivy-image-config: "trivy.yaml"
       juju-channel: '3/stable'
