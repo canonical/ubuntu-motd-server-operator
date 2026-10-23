@@ -17,6 +17,8 @@ jobs:
     with:
       with-uv: true
       python-version: '3.14'
+      charmcraft-channel: latest/edge
+      rockcraft-channel: latest/candidate
       trivy-fs-enabled: true
       trivy-image-config: "trivy.yaml"
       juju-channel: '3/stable'

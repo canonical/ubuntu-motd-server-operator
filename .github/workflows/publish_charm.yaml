@@ -14,5 +14,6 @@ jobs:
       contents: write
     secrets: inherit
     with:
+      charmcraft-channel: latest/edge
       channel: latest/edge
       resource-mapping: '{"motd-server-app": "flask-app-image"}'
