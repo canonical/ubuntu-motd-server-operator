@@ -1,21 +1,18 @@
-# Copyright 2025 Canonical Ltd.
+# Copyright 2026 Canonical Ltd.
 # See LICENSE file for licensing details.
 
 name: ubuntu-motd-server
 
 type: charm
 
-bases:
-  - build-on:
-    - name: ubuntu
-      channel: "22.04"
-    run-on:
-    - name: ubuntu
-      channel: "22.04"
+base: ubuntu@26.04
+charm-user: non-root
+
+platforms:
+  amd64:
 
 summary: Operates the Ubuntu MOTD server app.
 
-# (Required)
 description: |
   Operates the Ubuntu MOTD server app
 
