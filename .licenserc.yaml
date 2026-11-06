@@ -27,4 +27,5 @@ header:
     - '**/*.md.j2'
     - '.trivyignore'
     - 'tests/integration/charm-files.yaml'
+    - '**/MAJOR_VERSION'
   comment: on-failure

@@ -15,5 +15,5 @@ resource "juju_application" "ubuntu_motd_server" {
   config             = var.config
   constraints        = var.constraints
   units              = var.units
-  storage_directives = var.storage
+  storage_directives = var.storage_directives
 }

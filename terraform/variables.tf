@@ -5,18 +5,20 @@ variable "app_name" {
   description = "Name of the application in the Juju model."
   type        = string
   default     = "ubuntu-motd-server"
+  nullable    = false
 }
 
 variable "base" {
-  description = "The operating system on which to deploy"
+  description = "The operating system on which to deploy. null lets the provider use the charm's default (previously defaulted to \"ubuntu@22.04\")."
   type        = string
-  default     = "ubuntu@22.04"
+  default     = null
 }
 
 variable "channel" {
   description = "The channel to use when deploying a charm."
   type        = string
   default     = "latest/stable"
+  nullable    = false
 }
 
 variable "config" {
@@ -26,14 +28,15 @@ variable "config" {
 }
 
 variable "constraints" {
-  description = "Juju constraints to apply for this application."
+  description = "Juju constraints to apply for this application. null applies no constraints (previously defaulted to \"arch=amd64\")."
   type        = string
-  default     = "arch=amd64"
+  default     = null
 }
 
 variable "model_uuid" {
   description = "Reference to a `juju_model`."
   type        = string
+  nullable    = false
 }
 
 variable "revision" {
@@ -42,7 +45,7 @@ variable "revision" {
   default     = null
 }
 
-variable "storage" {
+variable "storage_directives" {
   description = "Map of storage used by the application."
   type        = map(string)
   default     = {}
