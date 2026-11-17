@@ -254,7 +254,7 @@ Push the rock to the registry:
 
 ```bash
 REGISTRY_IP=$(kubectl get svc private-registry -o jsonpath='{.spec.clusterIP}')
-APP_VERSION=0.15
+APP_VERSION=0.16
 skopeo --insecure-policy copy --dest-tls-verify=false oci-archive:motd-server-app/motd-server-app_${APP_VERSION}_amd64.rock docker://${REGISTRY_IP}:5000/motd-server-app:latest
 ```
 
@@ -264,5 +264,5 @@ juju add-model charm-dev
 # Enable DEBUG logging
 juju model-config logging-config="<root>=INFO;unit=DEBUG"
 # Deploy the charm
-juju deploy ./ubuntu-motd-server_ubuntu-22.04-amd64.charm --resource flask-app-image=${REGISTRY_IP}:5000/motd-server-app:latest
+juju deploy ./ubuntu-motd-server_ubuntu-26.04-amd64.charm --resource app-image=${REGISTRY_IP}:5000/motd-server-app:latest
 ```

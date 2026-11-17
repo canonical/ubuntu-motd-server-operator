@@ -22,6 +22,7 @@ header:
     - 'LICENSE'
     - 'trivy.yaml'
     - 'pyproject.toml'
+    - 'uv.lock'
     - 'zap_rules.tsv'
     - 'lib/**'
     - '**/*.md.j2'
