@@ -26,7 +26,7 @@ juju status ubuntu-motd-server --relations
 
 ### Remove and redeploy the charm
 
-Because the container is renamed, `juju refresh` doesn't work on Juju 3.x and 4.0. A Juju bug
+Because the container is renamed, `juju refresh` doesn't work on Juju earlier than 4.1. A Juju bug
 ([LP#1991955](https://bugs.launchpad.net/juju/+bug/1991955)) keeps the old container alive and
 makes the refresh fail. You must remove the charm and deploy the new version instead:
 
