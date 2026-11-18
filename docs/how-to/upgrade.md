@@ -14,6 +14,16 @@ consequences:
   their sessions. To keep sessions, provide the existing key as a Juju user secret before or
   right after deploying, as described below.
 
+### Save the configuration and integrations
+
+Removing the application deletes its Juju configuration, including the `files` option that holds
+the served MOTD content. Save it, and note the integrations, before you remove the application:
+
+```shell
+juju config ubuntu-motd-server files > motd-files.yaml
+juju status ubuntu-motd-server --relations
+```
+
 ### Remove and redeploy the charm
 
 Because the container is renamed, `juju refresh` doesn't work on Juju 3.x and 4.0. A Juju bug
@@ -26,8 +36,14 @@ juju deploy ubuntu-motd-server --base ubuntu@26.04 \
   --resource app-image=<registry>/motd-server-app:<version>
 ```
 
-Then recreate the integrations, for example with `juju integrate`, and reapply the
-configuration of the previous deployment.
+### Restore the configuration and integrations
+
+Restore the saved `files` option, and recreate each integration from the saved status output,
+for example with `juju integrate`:
+
+```shell
+juju config ubuntu-motd-server files=@motd-files.yaml
+```
 
 ### Reapply the application secret key
 
