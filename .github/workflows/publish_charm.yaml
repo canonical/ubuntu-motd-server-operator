@@ -15,4 +15,4 @@ jobs:
     secrets: inherit
     with:
       channel: latest/edge
-      resource-mapping: '{"motd-server-app": "flask-app-image"}'
+      resource-mapping: '{"motd-server-app": "app-image"}'
