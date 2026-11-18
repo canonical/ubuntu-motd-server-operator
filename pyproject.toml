@@ -8,6 +8,47 @@ dependencies = [
 
 [dependency-groups]
 charmlibs-pydeps = []
+# The charm dependencies needed to lint, type check and test the charm code.
+charm = ["paas-charm>=2.0b1,<3"]
+fmt = [
+    "black",
+    "isort",
+]
+lint = [
+    {include-group = "charm"},
+    "black",
+    "codespell",
+    "flake8",
+    "flake8-builtins",
+    "flake8-copyright",
+    "flake8-docstrings",
+    "flake8-docstrings-complete",
+    "flake8-test-docs",
+    "isort",
+    "jubilant",
+    "mypy",
+    "pep8-naming",
+    "pydocstyle>=2.10",
+    "pylint",
+    "pyproject-flake8",
+    "pytest",
+    "pytest-operator",
+    "requests",
+    "types-PyYAML",
+    "types-requests",
+]
+static = [
+    {include-group = "charm"},
+    "bandit[toml]",
+]
+integration = [
+    {include-group = "charm"},
+    "allure-pytest>=2.8.18",
+    "allure_pytest_collection_report @ git+https://github.com/canonical/data-platform-workflows@v24.0.0#subdirectory=python/pytest_plugins/allure_pytest_collection_report",
+    "jubilant",
+    "juju==3.6.*",
+    "pytest",
+]
 
 [tool.bandit]
 exclude_dirs = ["/venv/"]
@@ -91,4 +132,4 @@ per-file-ignores = {"tests/*" = ["D100","D101","D102","D103","D104"]}
 max-complexity = 10
 
 [tool.codespell]
-skip = "build,lib,venv,icon.svg,.tox,.git,.mypy_cache,.ruff_cache,.coverage"
+skip = "uv.lock,build,lib,venv,icon.svg,.tox,.git,.mypy_cache,.ruff_cache,.coverage"
